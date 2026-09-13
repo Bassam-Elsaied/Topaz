@@ -12,11 +12,13 @@ import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { StatsSection } from "@/components/stats-section";
+import { StructuredData } from "@/components/structured-data";
 import { WhatsappButton } from "@/components/whatsapp-button";
 
 export default function Home() {
   return (
     <>
+      <StructuredData />
       <SmoothScroll />
       <SiteHeader />
       <main className="relative z-[5]">

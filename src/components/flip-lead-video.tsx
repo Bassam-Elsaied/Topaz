@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef } from "react";
+import { VideoLightbox } from "@/components/video-lightbox";
 import { LEAD_PROJECT } from "@/data/projects";
 import {
   FLIP_LEAD_VH,
@@ -19,7 +21,7 @@ import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
  * live bounding boxes of two empty placeholders — `[data-flip-source]` in the
  * collage and `[data-flip-target]` in the events track. Reading both rects every
  * frame means it keeps tracking the target while the events track scrolls
- * sideways, with no second video element and no duplicate decode.
+ * sideways, with a single card rather than one per section.
  */
 
 const clamp = (v: number, min = 0, max = 1) => Math.min(max, Math.max(min, v));
@@ -29,14 +31,12 @@ const easeInOutCubic = (t: number) =>
 
 export function FlipLeadVideo() {
   const cardRef = useRef<HTMLDivElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const card = cardRef.current;
     const overlay = overlayRef.current;
-    const video = videoRef.current;
-    if (!card || !overlay || !video) return;
+    if (!card || !overlay) return;
 
     const source = document.querySelector<HTMLElement>(`[${FLIP_SOURCE_ATTR}]`);
     const target = document.querySelector<HTMLElement>(`[${FLIP_TARGET_ATTR}]`);
@@ -74,8 +74,6 @@ export function FlipLeadVideo() {
       card.style.height = `${baseHeight}px`;
     };
 
-    let playing = false;
-
     const update = (scroll: number) => {
       const t = target.getBoundingClientRect();
       const vh = window.innerHeight;
@@ -104,13 +102,10 @@ export function FlipLeadVideo() {
       // as the flip lands.
       overlay.style.opacity = clamp((p - 0.65) / 0.3).toFixed(3);
 
-      // Decode only while some part of the card is on screen.
-      const visible = y + height > -200 && y < vh + 200;
-      if (visible !== playing) {
-        playing = visible;
-        if (visible) void video.play().catch(() => {});
-        else video.pause();
-      }
+      // The card is fixed and full size, so its play button would otherwise be
+      // a click target laid over whatever is behind it for the whole flight.
+      // It is only ever over its own slot once it has arrived.
+      card.style.pointerEvents = p > 0.98 ? "auto" : "none";
     };
 
     let stop: (() => void) | null = null;
@@ -132,8 +127,9 @@ export function FlipLeadVideo() {
         } else if (near.size === 0 && stop) {
           stop();
           stop = null;
-          video.pause();
-          playing = false;
+          // Parked off screen with a stale transform, so it must not be
+          // holding on to a click target.
+          card.style.pointerEvents = "none";
         }
       },
       { rootMargin: "20%" },
@@ -156,16 +152,12 @@ export function FlipLeadVideo() {
       ref={cardRef}
       className="pointer-events-none fixed left-0 top-0 z-20 origin-top-left overflow-hidden rounded-[40px] bg-surface will-change-transform"
     >
-      <video
-        ref={videoRef}
-        className="absolute inset-0 size-full object-cover"
-        src={LEAD_PROJECT.video}
-        poster={LEAD_PROJECT.image}
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        aria-label={LEAD_PROJECT.title}
+      <Image
+        src={LEAD_PROJECT.image}
+        alt={LEAD_PROJECT.title}
+        fill
+        sizes="(max-width: 1024px) 86vw, 900px"
+        className="object-cover"
       />
 
       <div
@@ -173,9 +165,13 @@ export function FlipLeadVideo() {
         className="absolute inset-0 bg-linear-to-t from-black/75 via-black/10 to-transparent"
       />
 
+      {LEAD_PROJECT.video ? (
+        <VideoLightbox video={LEAD_PROJECT.video} />
+      ) : null}
+
       <div
         ref={overlayRef}
-        className="pointer-events-none absolute inset-x-0 bottom-0 p-6 opacity-0 md:p-10"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-6 opacity-0 md:p-10"
       >
         <span className="mb-2 inline-block font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-gold md:text-[14px]">
           Previous event

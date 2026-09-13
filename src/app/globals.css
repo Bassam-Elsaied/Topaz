@@ -19,6 +19,12 @@
   --container-max: 1440px;
 }
 
+/* Reserved up front so that locking the page behind the video lightbox takes
+   the scrollbar away without the layout jumping sideways to fill the gap. */
+html {
+  scrollbar-gutter: stable;
+}
+
 /* Lenis drives scrolling; native smooth behaviour would fight it. */
 html.lenis,
 html.lenis body {

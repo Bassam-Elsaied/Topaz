@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { InView } from "@/components/in-view";
-import { LazyVideo } from "@/components/lazy-video";
 import { Reveal } from "@/components/reveal";
 import { SectionLabel } from "@/components/section-label";
 import {
@@ -120,17 +119,18 @@ export function ProductionSection() {
 
         <Reveal>
           <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[minmax(0,268px)]">
-            {/* Lead tile: the only moving image in the grid, so it carries the
-                section without four clips competing for decode time. */}
+            {/* Lead tile: the only photograph at this size in the grid, so it
+                carries the section on its own. */}
             <Link
               href={AV.href}
               className={`${TILE} reveal min-h-90 sm:col-span-2 lg:row-span-2`}
             >
-              <LazyVideo
-                src="/projects/district-11-launch.mp4"
-                poster="/projects/district-11-launch.webp"
-                label="Topaz AV production on site"
-                className="absolute inset-0 size-full scale-105 object-cover transition-transform duration-700 group-hover:scale-100"
+              <Image
+                src="/projects/district-11-launch.webp"
+                alt=""
+                fill
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 90vw, 50vw"
+                className="scale-105 object-cover transition-transform duration-700 group-hover:scale-100"
               />
               <div
                 aria-hidden="true"

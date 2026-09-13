@@ -12,7 +12,11 @@
  * that the next one measures.
  */
 
-type Scroller = { raf: (time: number) => void };
+type Scroller = {
+  raf: (time: number) => void;
+  stop?: () => void;
+  start?: () => void;
+};
 type ScrollFrameCallback = (scroll: number) => void;
 type Subscriber = { order: number; callback: ScrollFrameCallback };
 
@@ -56,6 +60,18 @@ export function registerScroller(instance: Scroller) {
     scroller = null;
     sync();
   };
+}
+
+/**
+ * Freezes the page behind a full-screen overlay. `overflow: hidden` alone is
+ * not enough while a smooth scroller is running: it keeps easing towards its
+ * own target and the page crawls along underneath. The reserved scrollbar
+ * gutter in globals.css is what keeps this from shifting the layout.
+ */
+export function setScrollLocked(locked: boolean) {
+  document.documentElement.style.overflow = locked ? "hidden" : "";
+  if (locked) scroller?.stop?.();
+  else scroller?.start?.();
 }
 
 /**

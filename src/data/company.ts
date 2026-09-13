@@ -1,3 +1,8 @@
+/** Canonical origin. Absolute URLs in metadata and structured data hang off it. */
+export const SITE_URL = "https://topazevent.net";
+
+export const COMPANY_NAME = "Topaz Events Management";
+
 export const CONTACT = {
   phone: "+971 50 277 9072",
   phoneHref: "tel:+971502779072",

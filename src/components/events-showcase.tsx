@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
+import { VideoLightbox } from "@/components/video-lightbox";
 import { TRACK_PROJECTS, type Project } from "@/data/projects";
 import { FLIP_REVEAL_VH } from "@/lib/flip";
 import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
@@ -22,70 +23,24 @@ const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
 const TRAVEL_START = 0.72;
 
 function Card({ project }: { project: Project }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Buffering and playback are deliberately split. The track holds six clips,
-  // so starting them all as they approach would leave several decoding at once;
-  // instead a wide margin warms the next card up while only the cards actually
-  // on screen are allowed to play.
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    let warmed = false;
-    const warm = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || warmed) return;
-        warmed = true;
-        video.preload = "auto";
-        video.load();
-      },
-      { rootMargin: "10% 60%" },
-    );
-
-    const playback = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) void video.play().catch(() => {});
-      else video.pause();
-    });
-
-    warm.observe(video);
-    playback.observe(video);
-    return () => {
-      warm.disconnect();
-      playback.disconnect();
-    };
-  }, []);
-
   return (
     <div className="relative aspect-4/3 w-[min(86vw,900px)] shrink-0 overflow-hidden rounded-3xl bg-surface md:rounded-[40px]">
-      {project.video ? (
-        <video
-          ref={videoRef}
-          className="absolute inset-0 size-full object-cover"
-          src={project.video}
-          poster={project.image}
-          loop
-          muted
-          playsInline
-          preload="none"
-          aria-label={project.title}
-        />
-      ) : (
-        <Image
-          src={project.image}
-          alt={project.title}
-          fill
-          sizes="(max-width: 1024px) 86vw, 900px"
-          className="object-cover"
-        />
-      )}
+      <Image
+        src={project.image}
+        alt={project.title}
+        fill
+        sizes="(max-width: 1024px) 86vw, 900px"
+        className="object-cover"
+      />
 
       <div
         aria-hidden="true"
         className="absolute inset-0 bg-linear-to-t from-black/75 via-black/10 to-transparent"
       />
 
-      <div className="absolute inset-x-0 bottom-0 p-6 md:p-10">
+      {project.video ? <VideoLightbox video={project.video} /> : null}
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 p-6 md:p-10">
         <span className="mb-2 inline-block font-sans text-[12px] font-bold uppercase tracking-[0.14em] text-gold md:text-[14px]">
           Previous event
         </span>

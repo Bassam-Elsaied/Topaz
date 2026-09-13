@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Outfit } from "next/font/google";
 import { Preloader } from "@/components/preloader";
+import { COMPANY_NAME, SITE_URL } from "@/data/company";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -23,16 +24,30 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+const TITLE = "Topaz Events | Leading Event Management Company UAE";
+const DESCRIPTION =
+  "Topaz is a 360-degree event management company in Sharjah, Dubai and Abu Dhabi. With over 10 years of experience we deliver corporate events, gala dinners, exhibitions and full AV production across the UAE.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://topazevent.net"),
-  title: "Topaz Events | Leading Event Management Company UAE",
-  description:
-    "Topaz is a 360-degree event management company in Sharjah, Dubai and Abu Dhabi. With over 10 years of experience we deliver corporate events, gala dinners, exhibitions and full AV production across the UAE.",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESCRIPTION,
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "Topaz Events | Leading Event Management Company UAE",
+    title: TITLE,
     description:
       "Bring your events to life with Topaz — a leading event management company across Sharjah, Dubai and Abu Dhabi.",
     type: "website",
+    url: "/",
+    siteName: COMPANY_NAME,
+    locale: "en_AE",
+    images: [{ url: "/hero-poster.webp", width: 1920, height: 1080 }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+    images: ["/hero-poster.webp"],
   },
 };
 
