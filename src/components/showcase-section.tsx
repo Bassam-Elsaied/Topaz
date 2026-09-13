@@ -1,10 +1,15 @@
 import Image from "next/image";
 import { Diamond } from "@/components/diamond";
-import { COLLAGE_PROJECTS, PROJECTS } from "@/data/projects";
+import { COLLAGE_PROJECTS } from "@/data/projects";
 
 /**
  * Desktop scatter positions for the project photos. They ring the viewport so
  * the centred heading and diamond stay clear, matching the reference layout.
+ *
+ * The scatter is desktop-only. On a narrow screen it used to collapse into a
+ * grid of the same stills, which put every project on the page as a picture
+ * immediately before the events track put them there again as playable cards.
+ * The diamond now hands straight over to the track.
  */
 const SCATTER = [
   "left-[5vw] top-[16vh] w-[13vw]",
@@ -74,26 +79,6 @@ export function ShowcaseSection() {
             <span className="text-gold">you remember</span> for years.
           </h2>
         </div>
-      </div>
-
-      {/* On narrow screens the scatter collapses into a readable grid. */}
-      <div className="relative z-10 px-6 pb-20 lg:hidden">
-        <ul className="grid grid-cols-2 gap-3">
-          {PROJECTS.map((project) => (
-            <li
-              key={project.slug}
-              className="relative aspect-[4/3] overflow-hidden rounded-lg"
-            >
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                sizes="45vw"
-                className="object-cover"
-              />
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   );
