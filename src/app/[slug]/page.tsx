@@ -104,11 +104,21 @@ export default async function ServiceRoute({
 
         {page.film && <AutoplayFilm {...page.film} />}
 
-        <OfferingsSection {...page.offerings} />
-
-        {page.catalogue && <SpecGrid {...page.catalogue} />}
-
-        {page.checklist && <ChecklistBand {...page.checklist} />}
+        {/* Tent rental mirrors the live catalogue-first flow: pick a structure,
+            see the fit-out accessories, then read the feature detail. */}
+        {page.slug === "tent-rental" ? (
+          <>
+            {page.catalogue && <SpecGrid {...page.catalogue} />}
+            {page.checklist && <ChecklistBand {...page.checklist} />}
+            <OfferingsSection {...page.offerings} />
+          </>
+        ) : (
+          <>
+            <OfferingsSection {...page.offerings} />
+            {page.catalogue && <SpecGrid {...page.catalogue} />}
+            {page.checklist && <ChecklistBand {...page.checklist} />}
+          </>
+        )}
 
         <NumberedFeatures {...page.reasons} />
 

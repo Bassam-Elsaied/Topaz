@@ -259,6 +259,12 @@ const TENTS: SpecItem[] = [
     imageAlt: "10m by 30m type tent marquee for rent from Topaz Events",
   },
   {
+    name: "Canopy Tent Rental",
+    body: "Versatile open-sided canopy structures for outdoor hospitality, brand zones and shaded guest areas.",
+    image: "/rentals/tents/canopy-tent-rental.webp",
+    imageAlt: "Canopy tent structure for rent from Topaz Events",
+  },
+  {
     name: "Canopy Tent (5m × 5m)",
     body: "Open-sided shade cover for hospitality, catering points and outdoor sports events.",
     image: "/rentals/tents/canopy-tent-5x5.webp",

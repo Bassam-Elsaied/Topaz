@@ -1399,113 +1399,148 @@ export const SERVICE_PAGES: ServicePage[] = [
   {
     slug: "tent-rental",
     nav: "Tent Rental",
-    metaTitle: "Dome Tent & Marquee Rental in Dubai, Sharjah & UAE | Topaz",
+    metaTitle: "Best Tent Rental Services in Dubai & Sharjah | Topaz Events",
     metaDescription:
-      "Dome tent and marquee rental across Dubai, Sharjah and Abu Dhabi. CE-certified structures from 6m to 30m, customisable and built for UAE weather.",
+      "Luxury dome tent and marquee rental across Dubai, Sharjah, Abu Dhabi and Ajman. CE-certified structures from 6m to 30m with AC, flooring, lighting and full fit-out.",
     eyebrow: "Tent rental",
-    title: "Dome tent",
-    accent: "rental services",
-    tagline: "Structures that look like design, not shelter bolted on.",
-    lede: "Topaz is a leading supplier of dome tents for rent in Dubai, Sharjah, Abu Dhabi and Ajman. A range of high-quality structures from 6m to 30m, all customisable — used for corporate events, exhibitions, product launches, light festivals, brand promotions and projection mapping.",
-    image: "/projects/li-auto-launch.webp",
+    title: "Best tent rental",
+    accent: "services in UAE",
+    tagline: "Find your shelter solution — fast, secure and reliable.",
+    lede: "Unveil luxury tents for rent in Dubai, Sharjah, Abu Dhabi and beyond. Topaz structures are built for high-class events — corporate gatherings, exhibitions, product launches, light festivals, brand promotions, weddings, trade shows, business meetings and projection mapping.",
+    image: "/services/dome-tent-hero.webp",
     imageAlt:
-      "Covered event structure used for the Li Auto launch produced by Topaz Events",
+      "35m diameter dome tent supplied by Topaz Events for a large outdoor gathering in the UAE",
     overview: {
-      label: "The structure",
-      title: "Built for UAE",
-      accent: "weather",
+      label: "The No.1 supplier",
+      title: "Reliability,",
+      accent: "personalisation & safety",
       body: [
-        "Outdoor events in the Emirates have to survive heat, glare, dust and, for a few weeks a year, real wind and rain. A tent that cannot take that is a liability rather than a venue.",
-        "Ours are built on sturdy steel frames engineered for wind loading, with PVC or PVDF covers resistant to water, fire and UV. Clear roof options let daylight through during the day and turn the same structure into a projection surface after dark.",
+        "Topaz stands as a leading provider of dome tents for rent in Dubai, Sharjah, Abu Dhabi and Ajman. Our structures can take clear roof covers so daylight brightens the whole interior, then switch to vibrant lighting and projection after dark — suited to large-scale events, celebrations and exhibitions with serious capacity needs.",
+        "Outdoor programmes in the Emirates have to survive heat, glare, dust and, for a few weeks a year, real wind and rain. Ours are built on sturdy steel frames engineered for wind loading, with PVC or PVDF covers resistant to water, fire and UV — so the tent arrives as a finished venue, not temporary shelter bolted on.",
       ],
     },
     offerings: {
       label: "The specification",
-      title: "Why our dome",
-      accent: "tents work",
+      title: "Features of dome",
+      accent: "tent structure",
       intro:
-        "Reliability, personalisation and safety, in a structure that can be installed in days rather than weeks.",
+        "Empowering events through reliability, personalisation and safety — in a structure that can be installed in days rather than weeks.",
       items: [
         {
-          title: "Spacious & Flexible",
-          body: "Clear-span interiors give you endless possibilities for layout and design, with no internal poles cutting the floor plan into sections.",
+          title: "Spacious and Flexible",
+          body: "Clear-span interiors offer endless layout and design possibilities, so guests experience comfort and sophistication at any large-scale event.",
         },
         {
-          title: "Safety & Durability",
-          body: "Built from top-quality materials with CE certification, designed to withstand harsh weather while keeping every attendee safe.",
+          title: "Safety and Durability",
+          body: "Constructed with top-quality materials and CE certification, designed to withstand harsh weather while keeping every attendee safe.",
         },
         {
-          title: "Projection Ready",
-          body: "A high-quality white sheet surface makes the structure ideal for projection mapping and advertising, with vivid, high-contrast visuals after dark.",
+          title: "Projection Mapping",
+          body: "A high-quality white sheet surface makes the structure ideal for projection mapping and advertisements, with vivid, high-impact visuals.",
         },
         {
-          title: "Branding Opportunities",
-          body: "Customisable interior layouts and exterior branding turn the tent into a blank canvas for your identity rather than a neutral shell.",
+          title: "Customisation and Branding",
+          body: "Personalise interior layouts and branding options — a blank canvas ready to reflect your brand identity at any event.",
         },
         {
-          title: "Aesthetic Design",
+          title: "Aesthetic and Functional Design",
           body: "Sleek white exteriors, traditional Mashrabiya panels and elegant glass doors combine visual appeal with easy access and efficient climate control.",
         },
         {
-          title: "Weather Protection",
-          body: "Sturdy steel frames engineered for strong wind loads, with premium PVC or PVDF covers resistant to water, fire and UV.",
+          title: "Weather Prevention",
+          body: "Sturdy steel frames engineered for strong wind loads, with premium PVC or PVDF covers resistant to water, fire and UV for reliable outdoor use.",
         },
         {
-          title: "Quick Installation",
-          body: "Prefabricated components mean a medium-sized dome can be installed in four to ten days by a small team, saving both time and cost.",
+          title: "Quick and Easy Setup",
+          body: "Prefabricated components mean a medium-sized dome can typically be installed in four to ten days by a small team.",
         },
         {
           title: "Customisation Support",
-          body: "Tailored sizes, cover colours, patterns and additional facilities so the structure matches the event rather than constraining it.",
+          body: "Tailored sizes, cover colours, patterns and additional facilities so the structure matches the gathering rather than constraining it.",
         },
       ],
     },
     catalogue: {
       label: "The range",
-      title: "Choose your",
-      accent: "tent",
+      title: "Choose your dome",
+      accent: "tent for rental",
       intro:
-        "A diverse selection held in stock across the UAE, all customisable to your site and capacity.",
+        "A diverse selection of high-quality dome tents and marquees held in stock across the UAE, all customisable to your site and capacity.",
+      imageFit: "cover",
+      imageAspect: "16/9",
       items: [
         {
           name: "30M Dome Tent",
           body: "Our largest clear-span dome, for major launches, exhibitions and high-capacity gatherings.",
+          image: "/rentals/tents/dome-30m.webp",
+          imageAlt: "30M dome tent for rent from Topaz Events",
         },
         {
           name: "10M Dome Tent",
           body: "A mid-size dome suited to hospitality areas, VIP lounges and brand activations.",
+          image: "/rentals/tents/dome-10m.webp",
+          imageAlt: "10M dome tent for rent from Topaz Events",
         },
         {
           name: "6M Dome Tent",
           body: "A compact dome for registration points, satellite zones and intimate installations.",
+          image: "/rentals/tents/dome-6m.webp",
+          imageAlt: "6M dome tent for rent from Topaz Events",
         },
         {
           name: "Arabian Tent",
           body: "Traditional majlis-style structures for cultural events, national day celebrations and heritage programming.",
+          image: "/rentals/tents/arabian-tent.webp",
+          imageAlt: "Arabian majlis-style tent for rent from Topaz Events",
         },
         {
           name: "Type Tent (10m × 30m)",
           body: "A long-span rectangular marquee for banqueting, exhibitions and covered walkways.",
+          image: "/rentals/tents/type-tent-10x30.webp",
+          imageAlt: "10m by 30m type tent marquee for rent from Topaz Events",
         },
         {
-          name: "Canopy Tent (5m × 5m)",
-          body: "Open-sided shade cover for hospitality, catering points and outdoor sports events.",
+          name: "Canopy Tent Rental",
+          body: "Versatile open-sided canopy structures for outdoor hospitality, brand zones and shaded guest areas.",
+          image: "/rentals/tents/canopy-tent-rental.webp",
+          imageAlt: "Canopy tent structure for rent from Topaz Events",
         },
         {
           name: "Foldable Tent (3m × 3m)",
           body: "Rapid-deploy cover for stalls, registration desks and race-day support points.",
+          image: "/rentals/tents/foldable-tent-3x3.webp",
+          imageAlt: "3m by 3m foldable tent for rent from Topaz Events",
+        },
+        {
+          name: "Canopy Tent (5m × 5m)",
+          body: "Open-sided shade cover for hospitality, catering points and outdoor sports events.",
+          image: "/rentals/tents/canopy-tent-5x5.webp",
+          imageAlt: "5m by 5m canopy tent for rent from Topaz Events",
         },
         {
           name: "Canopy Tent (3m × 3m)",
           body: "A compact branded canopy for activations, marshalling points and vendor positions.",
+          image: "/rentals/tents/canopy-tent-3x3.webp",
+          imageAlt: "3m by 3m canopy tent for rent from Topaz Events",
         },
+      ],
+    },
+    checklist: {
+      title: "Other accessories with dome tents",
+      items: [
+        "Air conditioning",
+        "Lights",
+        "Flooring",
+        "Doors",
+        "Access ramps",
+        "Carpets",
       ],
     },
     reasons: {
       title: "Why Topaz for",
       accent: "tent rental",
       intro:
-        "A leading dome tent supplier in the UAE, delivering reliability, personalisation and safety.",
+        "A leading dome tent supplier in the UAE — empowering events through reliability, personalisation and safety.",
       items: [
         {
           title: "Certified Structures",
@@ -1513,7 +1548,7 @@ export const SERVICE_PAGES: ServicePage[] = [
         },
         {
           title: "Full Fit-Out",
-          body: "Flooring, climate control, lighting, AV and furniture can all come from us, so the tent arrives as a finished venue.",
+          body: "Air conditioning, flooring, lighting, doors, access ramps, carpets, AV and furniture can all come from us, so the tent arrives as a finished venue.",
         },
         {
           title: "Our Own Crew",
@@ -1549,14 +1584,19 @@ export const SERVICE_PAGES: ServicePage[] = [
         answer:
           "They are. The white cover is a high-quality projection surface, which is why these structures are often used for light festivals and brand reveals.",
       },
+      {
+        question: "What accessories can you supply with a dome tent?",
+        answer:
+          "Air conditioning, lighting, flooring, doors, access ramps and carpets are available with every structure, so the booking covers a finished venue rather than a shell.",
+      },
       UAE_FAQ,
       BOOKING_FAQ,
     ],
     related: ["all-rental-services", "festivals", "sporting-outdoor-events"],
     cta: {
-      title: "Need covered space",
-      accent: "on your site?",
-      body: "Send us the site dimensions, the capacity you need and your dates. We will recommend a structure and quote it installed.",
+      title: "Elevate your outdoor",
+      accent: "experience",
+      body: "Premium tents for Sharjah, Dubai, Abu Dhabi and across the UAE. Send site dimensions, capacity and dates — we will recommend a structure and quote it installed.",
     },
   },
 ];
