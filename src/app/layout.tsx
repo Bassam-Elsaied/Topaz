@@ -26,7 +26,7 @@ const cormorant = Cormorant_Garamond({
 
 const TITLE = "Topaz Events | Leading Event Management Company UAE";
 const DESCRIPTION =
-  "Topaz is a 360-degree event management company in Sharjah, Dubai and Abu Dhabi. With over 10 years of experience we deliver corporate events, gala dinners, exhibitions and full AV production across the UAE.";
+  "Topaz is a 360-degree event management company in Sharjah, Dubai and Abu Dhabi, delivering corporate events, gala dinners, exhibitions and full AV production.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

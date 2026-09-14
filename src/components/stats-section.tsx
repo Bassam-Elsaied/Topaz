@@ -32,12 +32,14 @@ function Counter({ stat }: { stat: Stat }) {
         observer.disconnect();
 
         const start = performance.now();
+        let lastVal = -1;
         const step = (now: number) => {
           const t = Math.min(1, (now - start) / DURATION);
-          el.textContent = format(
-            Math.round(easeOutCubic(t) * stat.value),
-            stat.pad,
-          );
+          const currentVal = Math.round(easeOutCubic(t) * stat.value);
+          if (currentVal !== lastVal) {
+            lastVal = currentVal;
+            el.textContent = format(currentVal, stat.pad);
+          }
           if (t < 1) frame = window.requestAnimationFrame(step);
         };
         frame = window.requestAnimationFrame(step);

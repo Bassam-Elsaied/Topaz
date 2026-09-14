@@ -28,6 +28,7 @@ export function AboutSection() {
     let top = 0;
     let span = 1;
     let enabled = false;
+    let lastScroll = -1;
     let stop: (() => void) | null = null;
 
     const reset = () => {
@@ -41,6 +42,7 @@ export function AboutSection() {
         reset();
         return;
       }
+      lastScroll = -1;
       const rect = section.getBoundingClientRect();
       top = rect.top + window.scrollY;
       span = rect.height + window.innerHeight;
@@ -49,6 +51,8 @@ export function AboutSection() {
 
     const update = (scroll: number) => {
       if (!enabled) return;
+      if (scroll === lastScroll) return;
+      lastScroll = scroll;
       // -1 as the section enters from below, +1 as it leaves past the top.
       const progress = ((scroll + window.innerHeight - top) / span) * 2 - 1;
       const offset = Math.max(-1, Math.min(1, progress)) * DRIFT;

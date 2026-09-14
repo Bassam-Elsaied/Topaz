@@ -70,7 +70,10 @@ export function Diamond({ className = "" }: { className?: string }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas?.getContext("2d");
+    const ctx = canvas?.getContext("2d", {
+      alpha: true,
+      desynchronized: true,
+    });
     if (!canvas || !ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -220,7 +223,7 @@ export function Diamond({ className = "" }: { className?: string }) {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className={`block size-full ${className}`}
+      className={`block size-full will-change-transform ${className}`}
     />
   );
 }

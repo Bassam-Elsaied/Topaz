@@ -10,7 +10,8 @@ export type NavIconName =
   | "about"
   | "portfolio"
   | "team"
-  | "awards";
+  | "awards"
+  | "blog";
 
 export function NavIcon({
   name,
@@ -77,6 +78,12 @@ export function NavIcon({
           <path d="M7.6 4h8.8v4.6a4.4 4.4 0 0 1-8.8 0z" />
           <path d="M7.6 5.6H5.2a2.4 2.4 0 0 0 2.4 4.4M16.4 5.6h2.4a2.4 2.4 0 0 1-2.4 4.4" />
           <path d="M12 13v3.2M9 20.4h6l-.8-4.2H9.8z" />
+        </>
+      )}
+      {name === "blog" && (
+        <>
+          <rect x="3.5" y="5" width="17" height="14" rx="2" />
+          <path d="M7 9h6M7 12.5h10M7 16h7" />
         </>
       )}
     </svg>

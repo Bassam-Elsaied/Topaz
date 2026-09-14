@@ -4,11 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { VideoLightbox } from "@/components/video-lightbox";
-import { TRACK_PROJECTS, type Project } from "@/data/projects";
+import type { ReelCardData } from "@/data/cards";
 import { FLIP_REVEAL_VH } from "@/lib/flip";
 import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
-
-const PANELS = TRACK_PROJECTS;
 
 const clamp = (v: number, min = 0, max = 1) => Math.min(max, Math.max(min, v));
 const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
@@ -22,7 +20,7 @@ const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
  */
 const TRAVEL_START = 0.72;
 
-function Card({ project }: { project: Project }) {
+function Card({ project }: { project: ReelCardData }) {
   return (
     <div className="relative aspect-4/3 w-[min(86vw,900px)] shrink-0 overflow-hidden rounded-3xl bg-surface md:rounded-[40px]">
       <Image
@@ -102,7 +100,12 @@ function MoreCard() {
   );
 }
 
-export function EventsShowcase() {
+/**
+ * The projects arrive as props rather than an import: this is a client
+ * component, so importing `@/data/projects` would ship the whole portfolio to
+ * the browser for six stills. See `@/data/cards`.
+ */
+export function EventsShowcase({ projects }: { projects: ReelCardData[] }) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const restRef = useRef<HTMLDivElement>(null);
@@ -120,6 +123,7 @@ export function EventsShowcase() {
     let revealPx = 0;
     let sectionTop = 0;
     let enabled = false;
+    let lastScroll = -1;
     let stop: (() => void) | null = null;
 
     const reset = () => {
@@ -136,6 +140,7 @@ export function EventsShowcase() {
         reset();
         return;
       }
+      lastScroll = -1;
       // The cards are parked a viewport to the right until the flip lands, and
       // a transform still counts towards its parent's scrollable overflow — so
       // the park has to be cleared before measuring or the track is handed a
@@ -152,6 +157,8 @@ export function EventsShowcase() {
 
     const update = (scroll: number) => {
       if (!enabled) return;
+      if (scroll === lastScroll) return;
+      lastScroll = scroll;
 
       const scrolled = scroll - sectionTop;
       const reveal = easeOutCubic(clamp(scrolled / revealPx));
@@ -224,7 +231,7 @@ export function EventsShowcase() {
             ref={restRef}
             className="flex flex-col items-center gap-6 lg:flex-row lg:gap-16 lg:will-change-transform"
           >
-            {PANELS.map((project) => (
+            {projects.map((project) => (
               <Card key={project.slug} project={project} />
             ))}
             {/* `measure` reads the track's scrollWidth, so the pinned section

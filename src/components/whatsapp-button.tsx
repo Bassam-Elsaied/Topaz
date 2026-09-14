@@ -18,7 +18,14 @@ export function WhatsappButton() {
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setShown(window.scrollY > window.innerHeight * 0.8);
+    let lastShown: boolean | null = null;
+    const onScroll = () => {
+      const isShown = window.scrollY > window.innerHeight * 0.8;
+      if (isShown !== lastShown) {
+        lastShown = isShown;
+        setShown(isShown);
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

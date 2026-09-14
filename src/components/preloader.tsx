@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 /**
@@ -8,9 +9,9 @@ import { useEffect, useRef, useState } from "react";
  * from the very first paint, then steps through a set of show-call cues while
  * the document finishes loading and finally splits apart like stage drapes.
  *
- * Progress eases toward STALL_AT until `load` has fired and MIN_VISIBLE has
- * elapsed, so the bar keeps moving on a slow connection and still reads as a
- * deliberate beat on a fast one.
+ * It is deliberately limited to arriving on the home page. A five-second drape
+ * is a brand moment on the front door; in front of a service page someone
+ * reached from a search result it is just five seconds of held-back content.
  */
 
 const CUES = [
@@ -21,34 +22,46 @@ const CUES = [
   "Curtain up",
 ];
 
-/** How far the bar creeps while the document is still loading. */
-const STALL_AT = 88;
-/** Floor on how long the curtain stays up, so it never flickers. */
-const MIN_VISIBLE = 1600;
+/** Total duration the preloader displays before opening the site (5 seconds). */
+const PRELOADER_DURATION = 5000;
+/** Brief pause at 100% so the completed counter registers before curtains split. */
+const HOLD_AT_100 = 400;
+/** Duration over which the percentage progresses from 0 to 100. */
+const COUNT_DURATION = PRELOADER_DURATION - HOLD_AT_100;
 /** Must match the panel transition in globals.css. */
 const CURTAIN_MS = 1000;
 
-/**
- * The cues before the last one are spread across the stalled range, since that
- * is where the bar spends its time; the final call is held back for the
- * hand-off so it lands with the drapes rather than partway up the bar.
- */
 function cueFor(value: number) {
-  const upfront = CUES.length - 1;
-  if (value >= 97) return upfront;
-  return Math.min(upfront - 1, Math.floor((value / STALL_AT) * upfront));
+  if (value < 25) return 0;
+  if (value < 50) return 1;
+  if (value < 75) return 2;
+  if (value < 95) return 3;
+  return 4;
 }
+
+/**
+ * Module scope, so it survives the component unmounting but not a new document.
+ * That is precisely the distinction we want: the curtain runs once when the tab
+ * loads the site, and navigating back to the home page later does not replay it.
+ */
+let alreadyPlayed = false;
 
 export function Preloader() {
   const [cue, setCue] = useState(0);
   const [open, setOpen] = useState(false);
   const [gone, setGone] = useState(false);
 
+  const active = usePathname() === "/" && !alreadyPlayed;
+
   const fillRef = useRef<HTMLSpanElement>(null);
   const markerRef = useRef<HTMLSpanElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  const cueRef = useRef(0);
 
   useEffect(() => {
+    if (!active) return;
+    alreadyPlayed = true;
+
     const html = document.documentElement;
     const { body } = document;
     const prevHtmlOverflow = html.style.overflow;
@@ -61,10 +74,9 @@ export function Preloader() {
 
     const started = performance.now();
     let loaded = document.readyState === "complete";
-    let value = 0;
     let frame = 0;
-    let openTimer = 0;
     let doneTimer = 0;
+    let lastRounded = -1;
 
     const onLoad = () => {
       loaded = true;
@@ -77,12 +89,14 @@ export function Preloader() {
     };
 
     const step = () => {
-      const held = performance.now() - started < MIN_VISIBLE;
-      const target = loaded && !held ? 100 : STALL_AT;
+      const elapsed = performance.now() - started;
+      const isLoaded = loaded || document.readyState === "complete";
 
-      // Eased approach with a small floor, so the last few percent still tick
-      // over instead of stalling asymptotically.
-      value = Math.min(target, value + Math.max((target - value) * 0.07, 0.35));
+      // Progress steadily toward 100 over COUNT_DURATION (5.6s).
+      // If the document is somehow still loading, hold at 98% until loaded.
+      const maxAllowed = isLoaded ? 100 : 98;
+      const progress = Math.min(1, elapsed / COUNT_DURATION);
+      const value = Math.min(maxAllowed, progress * 100);
 
       if (fillRef.current) {
         fillRef.current.style.transform = `scaleX(${value / 100})`;
@@ -90,24 +104,38 @@ export function Preloader() {
       if (markerRef.current) {
         markerRef.current.style.transform = `translate3d(${value}%, 0, 0)`;
       }
-      if (countRef.current) {
-        countRef.current.textContent = String(Math.round(value)).padStart(
-          2,
-          "0",
-        );
+      const rounded = Math.round(value);
+      if (rounded !== lastRounded) {
+        lastRounded = rounded;
+        if (countRef.current) {
+          countRef.current.textContent = String(rounded).padStart(2, "0");
+        }
       }
-      setCue(cueFor(value));
 
-      if (value >= 99.9) {
-        // A held frame at 100 before the drapes move, so the number lands.
-        openTimer = window.setTimeout(() => {
-          setOpen(true);
-          doneTimer = window.setTimeout(() => {
-            release();
-            window.scrollTo(0, 0);
-            setGone(true);
-          }, CURTAIN_MS);
-        }, 260);
+      const nextCue = cueFor(value);
+      if (nextCue !== cueRef.current) {
+        cueRef.current = nextCue;
+        setCue(nextCue);
+      }
+
+      // After 5 seconds have passed and the page is loaded, open the curtains.
+      if (elapsed >= PRELOADER_DURATION && isLoaded) {
+        if (fillRef.current) {
+          fillRef.current.style.transform = "scaleX(1)";
+        }
+        if (markerRef.current) {
+          markerRef.current.style.transform = "translate3d(100%, 0, 0)";
+        }
+        if (countRef.current) {
+          countRef.current.textContent = "100";
+        }
+
+        setOpen(true);
+        doneTimer = window.setTimeout(() => {
+          release();
+          window.scrollTo(0, 0);
+          setGone(true);
+        }, CURTAIN_MS);
         return;
       }
 
@@ -118,14 +146,13 @@ export function Preloader() {
 
     return () => {
       cancelAnimationFrame(frame);
-      window.clearTimeout(openTimer);
       window.clearTimeout(doneTimer);
       window.removeEventListener("load", onLoad);
       release();
     };
-  }, []);
+  }, [active]);
 
-  if (gone) return null;
+  if (!active || gone) return null;
 
   return (
     <div
@@ -208,14 +235,14 @@ export function Preloader() {
             <span
               ref={fillRef}
               style={{ transform: "scaleX(0)" }}
-              className="absolute inset-y-0 left-0 w-full origin-left bg-gold"
+              className="absolute inset-y-0 left-0 w-full origin-left bg-gold will-change-transform"
             />
             {/* Full-width rail translated by the percentage, so the diamond
                 rides the leading edge without being stretched by the fill. */}
             <span
               ref={markerRef}
               style={{ transform: "translate3d(0, 0, 0)" }}
-              className="absolute inset-y-0 left-0 w-full"
+              className="absolute inset-y-0 left-0 w-full will-change-transform"
             >
               <span className="absolute left-0 top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-gold shadow-[0_0_14px_rgba(224,194,110,0.9)]" />
             </span>

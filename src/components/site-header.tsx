@@ -15,7 +15,7 @@ export type NavItem = NavLink | NavGroup;
 
 const isGroup = (item: NavItem): item is NavGroup => "children" in item;
 
-export const NAV_LINKS: NavItem[] = [
+const NAV_LINKS: NavItem[] = [
   { label: "Home", href: "/", icon: "home" },
   {
     label: "About Us",
@@ -24,6 +24,7 @@ export const NAV_LINKS: NavItem[] = [
       { label: "Our Portfolio", href: "/portfolio", icon: "portfolio" },
       { label: "Our Team", href: "/team", icon: "team" },
       { label: "Our Awards", href: "/awards", icon: "awards" },
+      { label: "Topaz Blog", href: "/blog", icon: "blog" },
     ],
   },
   { label: "Event Services", href: "/event-management", icon: "services" },
@@ -200,7 +201,14 @@ export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
+    let lastScrolled: boolean | null = null;
+    const onScroll = () => {
+      const isScrolled = window.scrollY > 24;
+      if (isScrolled !== lastScrolled) {
+        lastScrolled = isScrolled;
+        setScrolled(isScrolled);
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);

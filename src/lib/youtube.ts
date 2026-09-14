@@ -5,7 +5,7 @@
  */
 
 /** The cookie-free host. Same player, no tracking cookie until playback. */
-export const EMBED_ORIGIN = "https://www.youtube-nocookie.com";
+const EMBED_ORIGIN = "https://www.youtube-nocookie.com";
 
 /**
  * Warmed up when a reader reaches for a play button rather than on load. The
@@ -33,7 +33,25 @@ export function watchUrl(youtubeId: string) {
   return `https://www.youtube.com/watch?v=${youtubeId}`;
 }
 
-export function embedUrl(youtubeId: string, { autoplay = false } = {}) {
+export function embedUrl(
+  youtubeId: string,
+  {
+    autoplay = false,
+    mute = false,
+    loop = false,
+    start,
+    controls = true,
+    quality,
+  }: {
+    autoplay?: boolean;
+    mute?: boolean;
+    loop?: boolean;
+    start?: number;
+    controls?: boolean;
+    /** Suggested playback quality, e.g. `hd1080`. YouTube treats it as a hint. */
+    quality?: string;
+  } = {},
+) {
   const params = new URLSearchParams({
     // Keeps the end-of-video grid on this channel instead of offering
     // competitors' events.
@@ -43,6 +61,26 @@ export function embedUrl(youtubeId: string, { autoplay = false } = {}) {
   });
 
   if (autoplay) params.set("autoplay", "1");
+  // Browsers only honour autoplay when the player starts muted.
+  if (mute) params.set("mute", "1");
+  if (loop) {
+    // YouTube only loops a single video when it is also given as a one-item
+    // playlist, so the player has something to loop back to.
+    params.set("loop", "1");
+    params.set("playlist", youtubeId);
+  }
+  if (typeof start === "number" && start > 0) {
+    params.set("start", String(Math.floor(start)));
+  }
+  if (!controls) params.set("controls", "0");
+  if (quality) {
+    // `vq` is a hint the modern player mostly ignores in favour of picking
+    // quality from the frame size and bandwidth, so we also enable the JS API
+    // (see the component) to request the quality once the player is ready.
+    params.set("vq", quality);
+    params.set("hd", "1");
+    params.set("enablejsapi", "1");
+  }
 
   return `${EMBED_ORIGIN}/embed/${youtubeId}?${params}`;
 }

@@ -9,6 +9,8 @@ export type EnquiryField =
   | "company"
   | "location"
   | "eventType"
+  /** Free text behind the "Something else" option. */
+  | "eventTypeOther"
   | "message";
 
 export type EnquiryState = {

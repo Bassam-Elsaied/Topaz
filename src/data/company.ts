@@ -6,10 +6,13 @@ export const COMPANY_NAME = "Topaz Events Management";
 export const CONTACT = {
   phone: "+971 50 277 9072",
   phoneHref: "tel:+971502779072",
-  email: "marketing@topazevent.net",
-  emailHref: "mailto:marketing@topazevent.net",
+  email: "Info@topazuae.com",
+  emailHref: "mailto:Info@topazuae.com",
   whatsapp:
     "https://wa.me/971502779072?text=Welcome%20To%20Topaz%20Events%20Management",
+  hours: "Monday – Saturday, 9:00 AM – 6:00 PM",
+  /** `openingHours` in schema.org's abbreviated day-range notation. */
+  hoursSpec: "Mo-Sa 09:00-18:00",
 };
 
 export type Office = { city: string; lines: string[] };
@@ -32,7 +35,13 @@ export const OFFICES: Office[] = [
   },
 ];
 
-/** Options for the enquiry form's event-type select. */
+/**
+ * Catch-all for an enquiry that does not fit the list. Selecting it reveals a
+ * free-text field, so a brief we have no category for still arrives described.
+ */
+export const OTHER_EVENT_TYPE = "Something else";
+
+/** Options for the enquiry form's event-type chips. */
 export const EVENT_TYPES = [
   "Event Management",
   "Corporate Events",
@@ -43,6 +52,7 @@ export const EVENT_TYPES = [
   "Conference Event",
   "Exhibition Event",
   "AV & Rentals",
+  OTHER_EVENT_TYPE,
 ];
 
 export const SOCIAL_LINKS = [
@@ -89,7 +99,10 @@ export const FOOTER_COLUMNS = [
     title: "Rental Services",
     links: [
       { label: "AV Production", href: "/all-rental-services" },
-      { label: "Interactive Technology", href: "/interactive-event-technology" },
+      {
+        label: "Interactive Technology",
+        href: "/interactive-event-technology",
+      },
       { label: "LED Screens", href: "/led-screen-rental" },
       { label: "Sound System", href: "/all-rental-services" },
       { label: "Lighting System", href: "/all-rental-services" },

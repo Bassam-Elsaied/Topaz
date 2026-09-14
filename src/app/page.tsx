@@ -14,6 +14,8 @@ import { SmoothScroll } from "@/components/smooth-scroll";
 import { StatsSection } from "@/components/stats-section";
 import { StructuredData } from "@/components/structured-data";
 import { WhatsappButton } from "@/components/whatsapp-button";
+import { reelCard } from "@/data/cards";
+import { LEAD_PROJECT, TRACK_PROJECTS } from "@/data/projects";
 
 export default function Home() {
   return (
@@ -41,7 +43,7 @@ export default function Home() {
 
           <ClientLogos />
           <ShowcaseSection />
-          <EventsShowcase />
+          <EventsShowcase projects={TRACK_PROJECTS.map(reelCard)} />
           <AboutSection />
           <ServicesSection />
           <ProductionSection />
@@ -53,7 +55,7 @@ export default function Home() {
 
         {/* Sits above the content column so it can fly between the two
             sections without being clipped or painted over. */}
-        <FlipLeadVideo />
+        <FlipLeadVideo project={reelCard(LEAD_PROJECT)} />
       </main>
       <WhatsappButton />
     </>

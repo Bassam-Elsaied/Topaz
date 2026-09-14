@@ -1,10 +1,20 @@
 import type { MetadataRoute } from "next";
+import { BLOG_POSTS } from "@/data/blog";
 import { SITE_URL } from "@/data/company";
+import { ALL_ROUTES } from "@/data/site-pages";
 
 /**
- * The site is one page. Listing the routes the footer links to before they
- * exist would only hand crawlers a set of 404s, so they are added here as they
- * are built.
+ * Publication dates for the only routes that carry a real one. A `lastModified`
+ * invented for the rest — a build timestamp, say — would mark the whole site as
+ * changed on every deploy, which is the signal a crawler learns to ignore.
+ */
+const POST_DATES = new Map(
+  BLOG_POSTS.map((post) => [`/blog/${post.slug}`, new Date(post.date)]),
+);
+
+/**
+ * Built from the same route list the navigation and related-page cards read,
+ * so a page cannot be added to the site and quietly left out of the index.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -13,5 +23,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 1,
     },
+    ...ALL_ROUTES.map((route) => ({
+      url: `${SITE_URL}${route}`,
+      lastModified: POST_DATES.get(route),
+      changeFrequency: "monthly" as const,
+      // Case studies and blog posts sit below the service and hub pages.
+      priority:
+        route === "/privacy-policy"
+          ? 0.3
+          : route.startsWith("/portfolio/") || route.startsWith("/blog/")
+            ? 0.6
+            : 0.8,
+    })),
   ];
 }

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { VideoLightbox } from "@/components/video-lightbox";
-import { LEAD_PROJECT } from "@/data/projects";
+import type { ReelCardData } from "@/data/cards";
 import {
   FLIP_LEAD_VH,
   FLIP_SOURCE_ATTR,
@@ -22,6 +22,10 @@ import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
  * collage and `[data-flip-target]` in the events track. Reading both rects every
  * frame means it keeps tracking the target while the events track scrolls
  * sideways, with a single card rather than one per section.
+ *
+ * The project arrives as a prop rather than an import: this is a client
+ * component, so importing `@/data/projects` would ship the whole portfolio to
+ * the browser for one still. See `@/data/cards`.
  */
 
 const clamp = (v: number, min = 0, max = 1) => Math.min(max, Math.max(min, v));
@@ -29,7 +33,7 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const easeInOutCubic = (t: number) =>
   t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
 
-export function FlipLeadVideo() {
+export function FlipLeadVideo({ project }: { project: ReelCardData }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -56,8 +60,10 @@ export function FlipLeadVideo() {
     let sectionTop = 0;
     let baseWidth = 1;
     let baseHeight = 1;
+    let lastScroll = -1;
 
     const measure = () => {
+      lastScroll = -1;
       const s = source.getBoundingClientRect();
       sourceTop = s.top + window.scrollY;
       sourceLeft = s.left;
@@ -75,6 +81,9 @@ export function FlipLeadVideo() {
     };
 
     const update = (scroll: number) => {
+      if (scroll === lastScroll) return;
+      lastScroll = scroll;
+
       const t = target.getBoundingClientRect();
       const vh = window.innerHeight;
 
@@ -153,8 +162,8 @@ export function FlipLeadVideo() {
       className="pointer-events-none fixed left-0 top-0 z-20 origin-top-left overflow-hidden rounded-[40px] bg-surface will-change-transform"
     >
       <Image
-        src={LEAD_PROJECT.image}
-        alt={LEAD_PROJECT.title}
+        src={project.image}
+        alt={project.title}
         fill
         sizes="(max-width: 1024px) 86vw, 900px"
         className="object-cover"
@@ -165,8 +174,8 @@ export function FlipLeadVideo() {
         className="absolute inset-0 bg-linear-to-t from-black/75 via-black/10 to-transparent"
       />
 
-      {LEAD_PROJECT.video ? (
-        <VideoLightbox video={LEAD_PROJECT.video} />
+      {project.video ? (
+        <VideoLightbox video={project.video} />
       ) : null}
 
       <div
@@ -177,7 +186,7 @@ export function FlipLeadVideo() {
           Previous event
         </span>
         <h3 className="font-display text-[22px] font-bold uppercase leading-[0.95] text-text md:text-[40px]">
-          {LEAD_PROJECT.title}
+          {project.title}
         </h3>
       </div>
     </div>

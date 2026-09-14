@@ -60,7 +60,6 @@ export const EVENT_SERVICES: Service[] = [
 ];
 
 export type ProductionService = {
-  slug: string;
   title: string;
   summary: string;
   href: string;
@@ -71,7 +70,6 @@ export type ProductionService = {
 /** In-house production capabilities, shown as the bento grid under the services. */
 export const PRODUCTION_SERVICES: ProductionService[] = [
   {
-    slug: "av-solutions",
     title: "AV Solutions",
     summary:
       "Screens, sound, lighting and rigging specified, integrated and operated by our own technical crew.",
@@ -79,7 +77,6 @@ export const PRODUCTION_SERVICES: ProductionService[] = [
     icon: "av",
   },
   {
-    slug: "interactive-technology",
     title: "Interactive Technology",
     summary:
       "Installations your guests can touch, move and play with — real-time interaction that earns its own share of the room.",
@@ -87,7 +84,6 @@ export const PRODUCTION_SERVICES: ProductionService[] = [
     icon: "interactive",
   },
   {
-    slug: "projection-mapping",
     title: "Projection Mapping",
     summary:
       "Buildings, stages and objects turned into projection surfaces with content cut to the millimetre.",
@@ -95,7 +91,6 @@ export const PRODUCTION_SERVICES: ProductionService[] = [
     icon: "projection",
   },
   {
-    slug: "dome-tents",
     title: "Dome Tent Rentals",
     summary:
       "Structures that hold up to UAE weather while looking like part of the design, not a shelter bolted on.",

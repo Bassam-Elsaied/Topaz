@@ -36,13 +36,20 @@ export function ServicesSection() {
     let placed = false;
     let frame = 0;
     let idle = 0;
+    let rect: DOMRect | null = null;
+
+    const updateRect = () => {
+      if (placed) rect = list.getBoundingClientRect();
+    };
+
+    const onEnter = () => {
+      if (fine.matches) rect = list.getBoundingClientRect();
+    };
 
     const onMove = (event: PointerEvent) => {
       if (!fine.matches) return;
+      if (!rect) rect = list.getBoundingClientRect();
 
-      // Read once per event, not once per frame, and keep the rect out of the
-      // write phase below.
-      const rect = list.getBoundingClientRect();
       pointerX = event.clientX - rect.left - PREVIEW_W / 2;
       pointerY = event.clientY - rect.top - PREVIEW_H / 2;
 
@@ -69,14 +76,21 @@ export function ServicesSection() {
 
     const onLeave = () => {
       placed = false;
+      rect = null;
     };
 
+    list.addEventListener("pointerenter", onEnter);
     list.addEventListener("pointermove", onMove);
     list.addEventListener("pointerleave", onLeave);
+    window.addEventListener("scroll", updateRect, { passive: true });
+    window.addEventListener("resize", updateRect);
     return () => {
       if (frame) window.cancelAnimationFrame(frame);
+      list.removeEventListener("pointerenter", onEnter);
       list.removeEventListener("pointermove", onMove);
       list.removeEventListener("pointerleave", onLeave);
+      window.removeEventListener("scroll", updateRect);
+      window.removeEventListener("resize", updateRect);
     };
   }, []);
 

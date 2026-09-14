@@ -35,10 +35,6 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
 .lenis.lenis-stopped {
   overflow: hidden;
 }
@@ -62,6 +58,9 @@ body {
   background-repeat: repeat;
   background-size: 300px 300px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: strict;
 }
 
 .noise-overlay--2 {
@@ -71,6 +70,8 @@ body {
 .logos-track {
   animation: logos-scroll var(--logos-duration, 68s) linear infinite;
   will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Keeping a wide composited strip animating off screen costs frames elsewhere. */
@@ -92,6 +93,8 @@ body {
 .ticker-track {
   animation: logos-scroll var(--ticker-duration, 42s) linear infinite;
   will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .ticker-track--reverse {
@@ -118,6 +121,9 @@ body {
   width: 50.5%;
   background: var(--color-bg);
   transition: transform 1s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .preloader-panel--left {
@@ -160,6 +166,9 @@ body {
   filter: blur(5px);
   transform-origin: 50% 0;
   animation: preloader-beam 5.2s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .preloader-beam--b {
@@ -225,6 +234,8 @@ body {
     opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
     transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 [data-reveal-root].is--revealed .reveal {
@@ -238,6 +249,64 @@ body {
     opacity: 1;
     transform: none;
   }
+
+  .logos-marquee:not(.is--visible) .logos-track,
+  .ticker:not(.is--visible) .ticker-track {
+    animation-play-state: running;
+  }
+}
+
+/* Stepped enquiry form. Every field stays mounted inside one <form> so the
+   submitted FormData is complete whichever step the sender is on — only the
+   panels' visibility is stepped, never their presence. */
+[data-step-panel][data-active="false"] {
+  display: none;
+}
+
+[data-step-panel][data-active="true"] {
+  animation: step-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The "something else" detail field, revealed by its own chip. Done in CSS off
+   the checked radio rather than in state, so it still works without JS. */
+[data-other-detail] {
+  display: none;
+}
+
+[data-event-types]:has([data-other-option]:checked) ~ [data-other-detail] {
+  display: block;
+}
+
+/* Nothing can advance the steps without JS, so the whole form shows at once and
+   the step chrome that would strand a sender on page one is dropped. */
+@media (scripting: none) {
+  [data-step-panel][data-active="false"] {
+    display: block;
+  }
+
+  [data-step-panel][data-active="true"] {
+    animation: none;
+  }
+
+  [data-step-nav],
+  [data-step-actions] {
+    display: none;
+  }
+
+  [data-step-submit] {
+    display: inline-flex;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -245,6 +314,10 @@ body {
   .ticker-track,
   .preloader-beam,
   .preloader-cue {
+    animation: none;
+  }
+
+  [data-step-panel][data-active="true"] {
     animation: none;
   }
 

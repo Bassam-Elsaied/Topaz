@@ -44,10 +44,18 @@ export function Hero() {
 
   return (
     <section
-      aria-label="Topaz Events showreel"
-      className="fixed inset-x-0 top-0 z-0 min-h-[560px] overflow-hidden bg-bg landscape:min-h-[100svh] md:min-h-[720px]"
+      aria-labelledby="hero-heading"
+      className="fixed inset-x-0 top-0 z-0 min-h-140 overflow-hidden bg-bg landscape:min-h-svh md:min-h-180 will-change-transform"
       style={{ height: "100svh" }}
     >
+      {/* The showreel carries its own titles, so the page's heading is rendered
+          for crawlers and screen readers rather than drawn a second time over
+          footage that already says it. */}
+      <h1 id="hero-heading" className="sr-only">
+        Bring your events to life with Topaz — a leading event management
+        company in Sharjah, Dubai and Abu Dhabi
+      </h1>
+
       <video
         ref={videoRef}
         className="pointer-events-none size-full object-cover"
@@ -63,11 +71,11 @@ export function Hero() {
 
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-black/60 to-transparent"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-bg/70 to-transparent"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-bg/70 to-transparent"
       />
       <div
         aria-hidden="true"
