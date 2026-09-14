@@ -179,6 +179,7 @@ export function AboutSection() {
                 alt="Guests at the District 11 property launch staged by Topaz"
                 width={900}
                 height={600}
+                unoptimized
                 sizes="(max-width: 1024px) 90vw, 520px"
                 className="h-auto w-full object-cover"
               />
@@ -194,6 +195,7 @@ export function AboutSection() {
                 alt="Drone show above the Binghatti and Mercedes launch"
                 width={900}
                 height={600}
+                unoptimized
                 sizes="(max-width: 1024px) 50vw, 300px"
                 className="h-auto w-full object-cover"
               />

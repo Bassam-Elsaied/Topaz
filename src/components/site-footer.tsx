@@ -17,6 +17,7 @@ export function SiteFooter() {
                   alt="Topaz Events"
                   width={300}
                   height={131}
+                  unoptimized
                   sizes="180px"
                   className="h-11 w-auto"
                 />

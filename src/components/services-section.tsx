@@ -160,6 +160,7 @@ export function ServicesSection() {
                     src={service.image}
                     alt=""
                     fill
+                    unoptimized
                     sizes="340px"
                     className={`object-cover transition-opacity duration-500 ${
                       index === active ? "opacity-100" : "opacity-0"
@@ -217,6 +218,7 @@ export function ServicesSection() {
                           src={service.image}
                           alt=""
                           fill
+                          unoptimized
                           sizes="80px"
                           className="object-cover"
                         />

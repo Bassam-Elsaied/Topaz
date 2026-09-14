@@ -250,6 +250,7 @@ export function SiteHeader() {
               alt="Topaz Events"
               width={300}
               height={131}
+              unoptimized
               priority
               className="h-9 w-auto md:h-11"
             />

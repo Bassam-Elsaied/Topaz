@@ -189,6 +189,7 @@ export function Preloader() {
             alt=""
             width={300}
             height={131}
+            unoptimized
             priority
             className="h-14 w-auto md:h-20"
           />

@@ -86,6 +86,7 @@ export function ServiceIndex({
                     src={entry.image}
                     alt=""
                     fill
+                    unoptimized
                     sizes={
                       entry.wide
                         ? "(max-width: 768px) 92vw, 1200px"

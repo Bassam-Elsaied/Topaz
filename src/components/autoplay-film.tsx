@@ -128,6 +128,7 @@ export function AutoplayFilm({
               src={poster}
               alt={posterAlt ?? title}
               fill
+              unoptimized
               sizes="(max-width: 1024px) 94vw, 1200px"
               className="object-cover"
             />

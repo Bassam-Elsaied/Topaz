@@ -50,6 +50,7 @@ export function ShowcaseSection() {
                 alt=""
                 width={project.width}
                 height={project.height}
+                unoptimized
                 sizes="16vw"
                 className="h-auto w-full object-cover"
               />

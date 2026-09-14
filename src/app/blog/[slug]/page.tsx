@@ -116,6 +116,7 @@ export default async function BlogPostRoute({
                       alt={COMPANY_NAME}
                       width={44}
                       height={19}
+                      unoptimized
                       className="w-7"
                     />
                   </span>

@@ -27,6 +27,7 @@ function Card({ project }: { project: ReelCardData }) {
         src={project.image}
         alt={project.title}
         fill
+        unoptimized
         sizes="(max-width: 1024px) 86vw, 900px"
         className="object-cover"
       />

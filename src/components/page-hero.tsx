@@ -11,6 +11,7 @@ export type HeroAction = { label: string; href: string };
  * Masthead for every inner page: one full-bleed still, the trail, and an H1
  * sized off the viewport. The image is the page's LCP element, so it is marked
  * `priority` and sized to the full width rather than left to lazy-load.
+ * Stills are already WebP, so we skip the Next image optimizer.
  */
 export function PageHero({
   eyebrow,
@@ -44,6 +45,7 @@ export function PageHero({
         src={image}
         alt={imageAlt}
         fill
+        unoptimized
         priority
         sizes="100vw"
         className="-z-10 object-cover"
