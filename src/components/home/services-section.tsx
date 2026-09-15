@@ -162,9 +162,8 @@ export function ServicesSection() {
                     fill
                     sizes="340px"
                     className="object-cover"
-                    // Opacity on the fill wrapper — ImageLoad also toggles
-                    // opacity on the <img> for blur-up, which would override
-                    // inactive layers and leave only the last still visible.
+                    // Crossfade lives on the fill wrapper so inactive layers
+                    // stay hidden independently of each still's own fade-in.
                     wrapperClassName={`transition-opacity duration-500 ${
                       index === active ? "opacity-100" : "opacity-0"
                     }`}

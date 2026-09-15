@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { VideoLightbox } from "@/components/ui/video-lightbox";
 import type { ReelCardData } from "@/data/cards";
 import {
+  FLIP_DESKTOP_MQ,
   FLIP_LEAD_VH,
   FLIP_SOURCE_ATTR,
   FLIP_TARGET_ATTR,
@@ -19,9 +20,9 @@ import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
  *
  * Rather than reparenting the element, one fixed card interpolates between the
  * live bounding boxes of two empty placeholders — `[data-flip-source]` in the
- * collage and `[data-flip-target]` in the events track. Reading both rects every
- * frame means it keeps tracking the target while the events track scrolls
- * sideways, with a single card rather than one per section.
+ * collage and `[data-flip-target]` in the events track. The target is read
+ * while the card is moving so it keeps tracking the sideways track, with a
+ * single card rather than one per section. Below desktop the JS does not run.
  *
  * The project arrives as a prop rather than an import: this is a client
  * component, so importing `@/data/projects` would ship the whole portfolio to
@@ -47,12 +48,14 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
     const section = target?.closest("section");
     if (!source || !target || !section) return;
 
+    const desktop = window.matchMedia(FLIP_DESKTOP_MQ);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     // Static page-space geometry, refreshed only on resize. The source never
     // moves relative to the document, so the frame loop needs no layout read
     // for it; the target does move (its track scrolls sideways) and is the one
-    // rect still measured per frame.
+    // rect still measured per frame — and only once the card has left the
+    // collage, so the long approach costs no layout.
     let sourceTop = 0;
     let sourceLeft = 0;
     let sourceWidth = 0;
@@ -61,9 +64,24 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
     let baseWidth = 1;
     let baseHeight = 1;
     let lastScroll = -1;
+    let lastP = -1;
+    let enabled = false;
+
+    const park = () => {
+      card.style.pointerEvents = "none";
+      card.style.visibility = "hidden";
+      card.style.willChange = "auto";
+    };
 
     const measure = () => {
       lastScroll = -1;
+      lastP = -1;
+      enabled = desktop.matches;
+      if (!enabled) {
+        park();
+        return;
+      }
+
       const s = source.getBoundingClientRect();
       sourceTop = s.top + window.scrollY;
       sourceLeft = s.left;
@@ -81,10 +99,10 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
     };
 
     const update = (scroll: number) => {
+      if (!enabled) return;
       if (scroll === lastScroll) return;
       lastScroll = scroll;
 
-      const t = target.getBoundingClientRect();
       const vh = window.innerHeight;
 
       // Progress is measured off the section, not the target: the target sits
@@ -93,34 +111,48 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
       const span = vh * (FLIP_LEAD_VH + FLIP_TRAIL_VH);
       const raw = (scrolled + vh * FLIP_LEAD_VH) / span;
 
-      // Below the pin breakpoint the collage is hidden, so there is nothing to
-      // fly out of and the card simply rides its slot in the stacked layout.
       const collapsed = sourceWidth === 0 || reduced.matches;
       const p = collapsed ? 1 : easeInOutCubic(clamp(raw));
 
-      const width = lerp(sourceWidth, t.width, p);
-      const height = lerp(sourceHeight, t.height, p);
-      const x = lerp(sourceLeft, t.left, p);
-      const y = lerp(sourceTop - scroll, t.top, p);
+      let width = sourceWidth;
+      let height = sourceHeight;
+      let x = sourceLeft;
+      let y = sourceTop - scroll;
+
+      // Still sitting in the collage: cached source box is enough. The target
+      // is only read once the card is in flight or riding the travelling track.
+      if (p > 0) {
+        const t = target.getBoundingClientRect();
+        width = lerp(sourceWidth, t.width, p);
+        height = lerp(sourceHeight, t.height, p);
+        x = lerp(sourceLeft, t.left, p);
+        y = lerp(sourceTop - scroll, t.top, p);
+      }
 
       card.style.transform =
         `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) ` +
         `scale(${(width / baseWidth).toFixed(5)}, ${(height / baseHeight).toFixed(5)})`;
+      card.style.visibility = "visible";
 
-      // The caption would overflow the small collage card, so it only arrives
-      // as the flip lands.
-      overlay.style.opacity = clamp((p - 0.65) / 0.3).toFixed(3);
+      if (p !== lastP) {
+        lastP = p;
+        // The caption would overflow the small collage card, so it only arrives
+        // as the flip lands.
+        overlay.style.opacity = clamp((p - 0.65) / 0.3).toFixed(3);
 
-      // The card is fixed and full size, so its play button would otherwise be
-      // a click target laid over whatever is behind it for the whole flight.
-      // It is only ever over its own slot once it has arrived.
-      card.style.pointerEvents = p > 0.98 ? "auto" : "none";
+        // The card is fixed and full size, so its play button would otherwise
+        // be a click target laid over whatever is behind it for the whole
+        // flight. It is only ever over its own slot once it has arrived.
+        card.style.pointerEvents = p > 0.98 ? "auto" : "none";
+        card.style.willChange = p > 0 && p < 1 ? "transform" : "auto";
+      }
     };
 
     let stop: (() => void) | null = null;
 
-    // The loop still costs one layout read per frame, so it only runs while one
-    // of the two sections the card travels between is near the viewport.
+    // The loop still costs one layout read per frame once the card is moving,
+    // so it only runs while one of the two sections is near the viewport —
+    // and never below the desktop breakpoint, where the track owns the lead.
     const near = new Set<Element>();
     const visibility = new IntersectionObserver(
       (entries) => {
@@ -128,6 +160,7 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
           if (entry.isIntersecting) near.add(entry.target);
           else near.delete(entry.target);
         }
+        if (!enabled) return;
         if (near.size > 0 && !stop) {
           measure();
           // Runs after the track so the card lands on this frame's card
@@ -136,22 +169,33 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
         } else if (near.size === 0 && stop) {
           stop();
           stop = null;
-          // Parked off screen with a stale transform, so it must not be
-          // holding on to a click target.
-          card.style.pointerEvents = "none";
+          park();
         }
       },
       { rootMargin: "20%" },
     );
 
     const collage = source.closest("section");
-    if (collage) visibility.observe(collage);
-    visibility.observe(section);
+
+    const syncDesktop = () => {
+      visibility.disconnect();
+      near.clear();
+      stop?.();
+      stop = null;
+      measure();
+      if (!desktop.matches) return;
+      if (collage) visibility.observe(collage);
+      visibility.observe(section);
+    };
+
+    syncDesktop();
     window.addEventListener("resize", measure);
+    desktop.addEventListener("change", syncDesktop);
 
     return () => {
       visibility.disconnect();
       window.removeEventListener("resize", measure);
+      desktop.removeEventListener("change", syncDesktop);
       stop?.();
     };
   }, []);
@@ -159,17 +203,17 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
   return (
     <div
       ref={cardRef}
-      // Below `md` the events track stacks its cards instead of travelling,
+      // Below `lg` the events track stacks its cards instead of travelling,
       // and this card is fixed: it could neither stick with them nor let the
       // ones after it paint over it. The track carries the lead event itself
       // there, so there is nothing for this to fly to.
-      className="pointer-events-none fixed left-0 top-0 z-20 origin-top-left overflow-hidden rounded-[40px] bg-surface will-change-transform max-md:hidden"
+      className="pointer-events-none fixed left-0 top-0 z-20 origin-top-left overflow-hidden rounded-[40px] bg-surface max-lg:hidden"
     >
       <Image
         src={project.image}
         alt={project.title}
         fill
-        sizes="(max-width: 1024px) 86vw, 900px"
+        sizes="900px"
         className="object-cover"
       />
 

@@ -223,7 +223,7 @@ export function Diamond({ className = "" }: { className?: string }) {
     <canvas
       ref={canvasRef}
       aria-hidden="true"
-      className={`block size-full will-change-transform ${className}`}
+      className={`block size-full ${className}`}
     />
   );
 }

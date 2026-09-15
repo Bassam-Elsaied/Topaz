@@ -52,7 +52,7 @@ export function ClientLogos() {
                 aria-hidden={index >= logos.length}
                 width={logo.width}
                 height={logo.height}
-                loading="eager"
+                loading={index < 8 ? "eager" : "lazy"}
                 decoding="async"
                 className="block max-h-full w-auto max-w-50 object-contain opacity-70 transition-opacity duration-300 md:max-w-65"
               />

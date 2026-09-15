@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { VideoLightbox } from "@/components/ui/video-lightbox";
 import type { ReelCardData } from "@/data/cards";
-import { FLIP_REVEAL_VH } from "@/lib/flip";
+import { FLIP_DESKTOP_MQ, FLIP_REVEAL_VH } from "@/lib/flip";
 import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
 
 const clamp = (v: number, min = 0, max = 1) => Math.min(max, Math.max(min, v));
@@ -137,7 +137,7 @@ export function EventsShowcase({
     const rest = restRef.current;
     if (!section || !track) return;
 
-    const desktop = window.matchMedia("(min-width: 1024px)");
+    const desktop = window.matchMedia(FLIP_DESKTOP_MQ);
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     let distance = 0;
@@ -234,10 +234,10 @@ export function EventsShowcase({
         Previous Topaz events
       </h2>
 
-      {/* Overflow only below `md`, where the stacked cards have to be able to
+      {/* Overflow only below `lg`, where the stacked cards have to be able to
           stick to the viewport — an overflow container of their own would pin
           them to a box that never scrolls. */}
-      <div className="flex min-h-screen items-center overflow-visible md:overflow-hidden lg:sticky lg:top-0 lg:h-screen">
+      <div className="flex min-h-screen items-center overflow-visible lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden">
         {/* The leading gutter centres the 900px slot the flip lands in, so it
             has to stay half a viewport wide. The trailing one only decides
             where travel stops — matching it would park the last card in half a
@@ -254,12 +254,12 @@ export function EventsShowcase({
             style={{ "--stack-index": 0 } as React.CSSProperties}
             className="relative aspect-4/3 w-[min(86vw,900px)] shrink-0"
           >
-            {/* The lead event is a card of its own below `md`. The flying card
+            {/* The lead event is a card of its own below `lg`. The flying card
                 is fixed, and a fixed element can neither stick to the stack nor
                 let the cards after it paint over it — so it is the one card the
                 stack has to own rather than borrow. It hands the box back at
-                `md`, where the flying card takes over again. */}
-            <div className="absolute inset-0 overflow-hidden rounded-3xl bg-surface md:hidden">
+                `lg`, where the flying card takes over again. */}
+            <div className="absolute inset-0 overflow-hidden rounded-3xl bg-surface lg:hidden">
               <CardFace project={lead} />
             </div>
           </div>

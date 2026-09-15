@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
 
 /**
  * Full-viewport hero. It is fixed behind the page so the sections below scroll
@@ -13,39 +14,30 @@ export function Hero() {
 
   // Being fixed, the hero stays "on screen" as far as the compositor is
   // concerned even once it is fully covered. Pausing it then frees a
-  // full-screen 1080p decode for the rest of the page.
+  // full-screen 1080p decode for the rest of the page. The check rides the
+  // shared ticker so it does not add a second scroll listener next to Lenis.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    let frame = 0;
     let covered: boolean | null = null;
 
-    const check = () => {
-      frame = 0;
-      const next = window.scrollY > window.innerHeight * 0.9;
+    const check = (scroll: number) => {
+      const next = scroll > window.innerHeight * 0.9;
       if (next === covered) return;
       covered = next;
       if (next) video.pause();
       else void video.play().catch(() => {});
     };
 
-    const onScroll = () => {
-      if (!frame) frame = window.requestAnimationFrame(check);
-    };
-
-    check();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-    };
+    check(window.scrollY);
+    return onScrollFrame(check, ScrollOrder.Effect);
   }, []);
 
   return (
     <section
       aria-labelledby="hero-heading"
-      className="fixed inset-x-0 top-0 z-0 min-h-140 overflow-hidden bg-bg landscape:min-h-svh md:min-h-180 will-change-transform"
+      className="fixed inset-x-0 top-0 z-0 min-h-140 overflow-hidden bg-bg landscape:min-h-svh md:min-h-180"
       style={{ height: "100svh" }}
     >
       {/* The showreel carries its own titles, so the page's heading is rendered
@@ -63,7 +55,8 @@ export function Hero() {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
+        poster="/hero-poster.webp"
         aria-hidden="true"
       >
         <source src="/home.mp4" type="video/mp4" />

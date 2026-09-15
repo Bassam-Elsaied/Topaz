@@ -40,10 +40,10 @@ function splitStacking(className: string) {
 }
 
 /**
- * Site image primitive: blur-up lazy load against pre-built WebP in `/public`.
+ * Site image primitive: fade-in lazy load against pre-built WebP in `/public`.
  *
- * Uses a native <img> (not react-lazy-load-image-component's blur effect), which
- * leaves cached images at opacity:0 when `onLoad` never fires on reload.
+ * Cached images can finish before React attaches `onLoad`; the complete-check
+ * effect covers that so they do not stay at opacity 0 on reload.
  */
 export default function ImageLoad({
   src,
@@ -112,15 +112,19 @@ export default function ImageLoad({
       loading={eager ? "eager" : "lazy"}
       fetchPriority={eager ? "high" : "auto"}
       decoding="async"
+      // Unloaded fade is an inline style so it cannot fight a consumer's
+      // opacity utilities. Once loaded, no opacity is set here — stacked
+      // previews can hide a layer without ImageLoad forcing it back to 100.
+      // Filter blur is skipped: it is a full-image GPU pass on every still.
       className={[
         fill ? "absolute inset-0 h-full w-full" : "",
         coverClass,
         rest,
-        "transition-[opacity,filter] duration-500 ease-out",
-        loaded ? "opacity-100 blur-0" : "opacity-0 blur-sm",
+        "transition-opacity duration-500 ease-out",
       ]
         .filter(Boolean)
         .join(" ")}
+      style={loaded ? undefined : { opacity: 0 }}
     />
   ) : null;
 

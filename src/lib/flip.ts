@@ -23,3 +23,9 @@ export const FLIP_REVEAL_VH = 0.6;
  */
 export const FLIP_LEAD_VH = 0.7;
 export const FLIP_TRAIL_VH = 0.2;
+
+/**
+ * Width at which the collage, the flying card and the sideways track all exist.
+ * Below it the reel is a stacked column and none of the flip JS should run.
+ */
+export const FLIP_DESKTOP_MQ = "(min-width: 1024px)";

@@ -256,12 +256,12 @@ body {
   }
 }
 
-/* Events reel on a phone. The desktop reel is a pinned track that travels
-   sideways, which needs width a phone does not have — so below `md`, where the
-   component lays the same cards out as a column, each one sticks under the last
-   and the reel reads as a stack instead. Nothing here is scroll-linked in JS:
-   the cards' own containing block releases the stack at the end of the reel. */
-@media (max-width: 767.98px) {
+/* Events reel below `lg`. The desktop reel is a pinned track that travels
+   sideways, which needs width a tablet does not have — so where the component
+   lays the same cards out as a column, each one sticks under the last and the
+   reel reads as a stack instead. Nothing here is scroll-linked in JS: the
+   cards' own containing block releases the stack at the end of the reel. */
+@media (max-width: 1023.98px) {
   [data-card-stack] {
     /* Clears the fixed header, then leaves a sliver of every card already in
        the stack showing above the one that covered it. */
