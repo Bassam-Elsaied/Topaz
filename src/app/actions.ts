@@ -1,6 +1,12 @@
 "use server";
 
-import { OTHER_EVENT_TYPE } from "@/data/company";
+import { Resend } from "resend";
+import { CONTACT, OTHER_EVENT_TYPE } from "@/data/company";
+import {
+  enquiryHtml,
+  enquirySubject,
+  enquiryText,
+} from "@/lib/enquiry-email";
 import {
   validateEnquiry,
   type EnquiryField,
@@ -22,11 +28,11 @@ const FIELDS: EnquiryField[] = [
  * Handles an enquiry from the form, wherever on the site it was submitted.
  *
  * Validation runs here rather than only in the browser so the form still works
- * when the client bundle has not loaded. Where the enquiry goes afterwards is
- * deployment config: set TOPAZ_ENQUIRY_WEBHOOK to the CRM or email endpoint
- * that should receive it. Without it the enquiry is logged and the sender is
- * told to reach us directly, instead of being shown a success screen for a
- * message that went nowhere.
+ * when the client bundle has not loaded. Delivery is Resend: set RESEND_API_KEY,
+ * and optionally RESEND_FROM / RESEND_TO once the sending domain is verified.
+ * Without a key the enquiry is logged and the sender is told to reach us
+ * directly, instead of being shown a success screen for a message that went
+ * nowhere.
  */
 export async function submitEnquiry(
   _previous: EnquiryState,
@@ -50,9 +56,9 @@ export async function submitEnquiry(
     };
   }
 
-  const endpoint = process.env.TOPAZ_ENQUIRY_WEBHOOK;
-  if (!endpoint) {
-    console.warn("[enquiry] TOPAZ_ENQUIRY_WEBHOOK is not set", values);
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn("[enquiry] RESEND_API_KEY is not set", values);
     return {
       status: "error",
       message:
@@ -63,12 +69,16 @@ export async function submitEnquiry(
   }
 
   try {
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...values, source: "website" }),
+    const resend = new Resend(apiKey);
+    const { error } = await resend.emails.send({
+      from: process.env.RESEND_FROM ?? "Topaz Events <beth.t@example.com>",
+      to: process.env.RESEND_TO ?? CONTACT.email,
+      replyTo: values.email,
+      subject: enquirySubject(values),
+      text: enquiryText(values),
+      html: enquiryHtml(values),
     });
-    if (!response.ok) throw new Error(`Endpoint returned ${response.status}`);
+    if (error) throw new Error(error.message);
   } catch (error) {
     console.error("[enquiry] delivery failed", error);
     return {

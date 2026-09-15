@@ -109,8 +109,22 @@ body {
    is the stage-drape split and the ambient bits that need keyframes. */
 .preloader {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   z-index: 100;
+  width: 100vw;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+}
+
+/* Lock the document from the first paint, not after hydration. Width is 100vw
+   so the curtain covers the reserved scrollbar gutter as well. */
+html:has(.preloader),
+html:has(.preloader) body {
+  overflow: hidden !important;
+  overscroll-behavior: none;
 }
 
 /* Just over half each, so no seam shows through on fractional viewports. */

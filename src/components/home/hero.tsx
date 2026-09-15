@@ -3,6 +3,10 @@
 import { useEffect, useRef } from "react";
 import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
 
+const DESKTOP_MQ = "(min-width: 768px)";
+const DESKTOP_SRC = "/home.mp4";
+const MOBILE_SRC = "/mobile.mp4";
+
 /**
  * Full-viewport hero. It is fixed behind the page so the sections below scroll
  * up over a video that never moves. The clip carries its own titles, so nothing
@@ -20,7 +24,19 @@ export function Hero() {
     const video = videoRef.current;
     if (!video) return;
 
-    let covered: boolean | null = null;
+    const mq = window.matchMedia(DESKTOP_MQ);
+    let covered = window.scrollY > window.innerHeight * 0.9;
+
+    // Source is chosen here rather than in markup so a phone never starts
+    // fetching the desktop reel (and the other way around).
+    const applySrc = () => {
+      const next = mq.matches ? DESKTOP_SRC : MOBILE_SRC;
+      if (video.dataset.src === next) return;
+      video.dataset.src = next;
+      video.src = next;
+      if (covered) video.pause();
+      else void video.play().catch(() => {});
+    };
 
     const check = (scroll: number) => {
       const next = scroll > window.innerHeight * 0.9;
@@ -30,8 +46,14 @@ export function Hero() {
       else void video.play().catch(() => {});
     };
 
-    check(window.scrollY);
-    return onScrollFrame(check, ScrollOrder.Effect);
+    applySrc();
+    mq.addEventListener("change", applySrc);
+    const unsub = onScrollFrame(check, ScrollOrder.Effect);
+
+    return () => {
+      mq.removeEventListener("change", applySrc);
+      unsub();
+    };
   }, []);
 
   return (
@@ -58,9 +80,7 @@ export function Hero() {
         preload="metadata"
         poster="/hero-poster.webp"
         aria-hidden="true"
-      >
-        <source src="/home.mp4" type="video/mp4" />
-      </video>
+      />
 
       <div
         aria-hidden="true"

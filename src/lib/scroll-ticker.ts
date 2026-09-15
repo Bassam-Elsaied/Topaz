@@ -32,6 +32,7 @@ export const ScrollOrder = {
 let subscribers: Subscriber[] = [];
 let scroller: Scroller | null = null;
 let frame = 0;
+let locked = false;
 
 function loop(time: number) {
   scroller?.raf(time);
@@ -55,6 +56,7 @@ function sync() {
 /** Hands the smooth-scroll instance the first slot in every frame. */
 export function registerScroller(instance: Scroller) {
   scroller = instance;
+  if (locked) scroller.stop?.();
   sync();
   return () => {
     scroller = null;
@@ -67,8 +69,12 @@ export function registerScroller(instance: Scroller) {
  * not enough while a smooth scroller is running: it keeps easing towards its
  * own target and the page crawls along underneath. The reserved scrollbar
  * gutter in globals.css is what keeps this from shifting the layout.
+ *
+ * The lock is remembered so a scroller that mounts afterwards (Lenis on the
+ * home page, after the preloader has already locked) is stopped on arrival.
  */
-export function setScrollLocked(locked: boolean) {
+export function setScrollLocked(next: boolean) {
+  locked = next;
   document.documentElement.style.overflow = locked ? "hidden" : "";
   if (locked) scroller?.stop?.();
   else scroller?.start?.();

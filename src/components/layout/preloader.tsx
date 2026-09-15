@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "@/components/ui/image-load";
+import { setScrollLocked } from "@/lib/scroll-ticker";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -62,15 +63,9 @@ export function Preloader() {
     if (!active) return;
     alreadyPlayed = true;
 
-    const html = document.documentElement;
-    const { body } = document;
-    const prevHtmlOverflow = html.style.overflow;
-    const prevBodyOverflow = body.style.overflow;
-
-    // Lenis is already live behind the curtain; clamping the document is what
-    // actually stops a wheel gesture from scrolling the hidden page.
-    html.style.overflow = "hidden";
-    body.style.overflow = "hidden";
+    // Lenis can mount after this effect; setScrollLocked remembers the lock
+    // so the scroller is stopped the moment it registers.
+    setScrollLocked(true);
 
     const started = performance.now();
     let loaded = document.readyState === "complete";
@@ -84,8 +79,7 @@ export function Preloader() {
     if (!loaded) window.addEventListener("load", onLoad, { once: true });
 
     const release = () => {
-      html.style.overflow = prevHtmlOverflow;
-      body.style.overflow = prevBodyOverflow;
+      setScrollLocked(false);
     };
 
     const step = () => {
