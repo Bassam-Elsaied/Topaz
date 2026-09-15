@@ -1,10 +1,10 @@
-import { ClientLogos } from "@/components/client-logos";
-import { CtaBand } from "@/components/cta-band";
-import { JsonLd } from "@/components/json-ld";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { ProjectGrid } from "@/components/project-grid";
-import { RelatedPages } from "@/components/related-pages";
+import { ClientLogos } from "@/components/home/client-logos";
+import { CtaBand } from "@/components/pages/cta-band";
+import { JsonLd } from "@/components/seo/json-ld";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { ProjectGrid } from "@/components/portfolio/project-grid";
+import { RelatedPages } from "@/components/pages/related-pages";
 import { projectCard } from "@/data/cards";
 import { PROJECTS, PROJECT_YEARS } from "@/data/projects";
 import {

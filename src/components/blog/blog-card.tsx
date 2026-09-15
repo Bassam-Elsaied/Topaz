@@ -1,11 +1,10 @@
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
 import type { BlogCardData } from "@/data/cards";
 
 /**
- * One article in a grid. The whole tile links to the post; the cover is a
- * pre-built WebP served straight (`unoptimized`), matching the rest of the
- * site's image handling.
+ * One article in a grid. The whole tile links to the post; the cover uses
+ * ImageLoad for blur-up lazy loading against pre-built WebP.
  */
 export function BlogCard({
   post,
@@ -26,7 +25,6 @@ export function BlogCard({
           src={post.image}
           alt={post.title}
           fill
-          unoptimized
           priority={priority}
           loading={priority ? undefined : "lazy"}
           sizes={sizes}

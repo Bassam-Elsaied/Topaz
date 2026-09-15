@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
@@ -189,7 +189,6 @@ export function Preloader() {
             alt=""
             width={300}
             height={131}
-            unoptimized
             priority
             className="h-14 w-auto md:h-20"
           />

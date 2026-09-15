@@ -1,19 +1,19 @@
-import { AboutSection } from "@/components/about-section";
-import { ClientLogos } from "@/components/client-logos";
-import { ContactSection } from "@/components/contact-section";
-import { EventsShowcase } from "@/components/events-showcase";
-import { FaqSection } from "@/components/faq-section";
-import { FlipLeadVideo } from "@/components/flip-lead-video";
-import { Hero } from "@/components/hero";
-import { ProductionSection } from "@/components/production-section";
-import { ServicesSection } from "@/components/services-section";
-import { ShowcaseSection } from "@/components/showcase-section";
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { StatsSection } from "@/components/stats-section";
-import { StructuredData } from "@/components/structured-data";
-import { WhatsappButton } from "@/components/whatsapp-button";
+import { AboutSection } from "@/components/home/about-section";
+import { ClientLogos } from "@/components/home/client-logos";
+import { ContactSection } from "@/components/home/contact-section";
+import { EventsShowcase } from "@/components/home/events-showcase";
+import { FaqSection } from "@/components/home/faq-section";
+import { FlipLeadVideo } from "@/components/home/flip-lead-video";
+import { Hero } from "@/components/home/hero";
+import { ProductionSection } from "@/components/home/production-section";
+import { ServicesSection } from "@/components/home/services-section";
+import { ShowcaseSection } from "@/components/home/showcase-section";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SmoothScroll } from "@/components/layout/smooth-scroll";
+import { StatsSection } from "@/components/home/stats-section";
+import { StructuredData } from "@/components/seo/structured-data";
+import { WhatsappButton } from "@/components/layout/whatsapp-button";
 import { reelCard } from "@/data/cards";
 import { LEAD_PROJECT, TRACK_PROJECTS } from "@/data/projects";
 
@@ -23,7 +23,7 @@ export default function Home() {
       <StructuredData />
       <SmoothScroll />
       <SiteHeader />
-      <main className="relative z-[5]">
+      <main className="relative z-5">
         {/* The hero is fixed behind the page; the spacer reserves its viewport
             height so the sections below scroll up over the still video. */}
         <Hero />
@@ -43,7 +43,10 @@ export default function Home() {
 
           <ClientLogos />
           <ShowcaseSection />
-          <EventsShowcase projects={TRACK_PROJECTS.map(reelCard)} />
+          <EventsShowcase
+            lead={reelCard(LEAD_PROJECT)}
+            projects={TRACK_PROJECTS.map(reelCard)}
+          />
           <AboutSection />
           <ServicesSection />
           <ProductionSection />

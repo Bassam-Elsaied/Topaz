@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ProjectCard } from "@/components/project-card";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { ProjectCard } from "@/components/portfolio/project-card";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { projectCard } from "@/data/cards";
 import type { Project } from "@/data/projects";
 

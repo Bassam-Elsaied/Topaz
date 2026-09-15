@@ -1,17 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
-
-export type IndexEntry = {
-  href: string;
-  title: string;
-  body: string;
-  image: string;
-  points?: string[];
-  /** Gives the entry the full row on desktop — used for the lead service. */
-  wide?: boolean;
-};
+import Image from "@/components/ui/image-load";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
+import type { IndexEntry } from "@/types";
 
 /**
  * The linked grid on the hub pages. Each tile is a photograph with the copy
@@ -86,7 +77,6 @@ export function ServiceIndex({
                     src={entry.image}
                     alt=""
                     fill
-                    unoptimized
                     sizes={
                       entry.wide
                         ? "(max-width: 768px) 92vw, 1200px"

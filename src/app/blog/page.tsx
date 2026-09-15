@@ -1,9 +1,9 @@
-import { BlogIndex } from "@/components/blog-index";
-import { CtaBand } from "@/components/cta-band";
-import { JsonLd } from "@/components/json-ld";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { RelatedPages } from "@/components/related-pages";
+import { BlogIndex } from "@/components/blog/blog-index";
+import { CtaBand } from "@/components/pages/cta-band";
+import { JsonLd } from "@/components/seo/json-ld";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { RelatedPages } from "@/components/pages/related-pages";
 import { BLOG_CATEGORIES, BLOG_POSTS, FEATURED_POST } from "@/data/blog";
 import { blogCard } from "@/data/cards";
 import { breadcrumbSchema, graph, webPageSchema } from "@/lib/schema";

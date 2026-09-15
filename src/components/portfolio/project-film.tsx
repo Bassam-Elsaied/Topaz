@@ -1,7 +1,7 @@
-import Image from "next/image";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
-import { VideoLightbox } from "@/components/video-lightbox";
+import Image from "@/components/ui/image-load";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
+import { VideoLightbox } from "@/components/ui/video-lightbox";
 import type { Project } from "@/data/projects";
 
 /**
@@ -38,7 +38,6 @@ export function ProjectFilm({ project }: { project: Project }) {
                 src={project.image}
                 alt=""
                 fill
-                unoptimized
                 sizes="(max-width: 1024px) 94vw, 1200px"
                 className="object-cover"
               />

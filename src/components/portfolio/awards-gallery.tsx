@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { ALL_AWARDS, AWARDS, FEATURED_AWARD } from "@/data/awards";
 import { setScrollLocked } from "@/lib/scroll-ticker";
 
@@ -14,8 +14,7 @@ import { setScrollLocked } from "@/lib/scroll-ticker";
  * A headline award leads, the rest sit in a ruled grid, and any one opens full
  * size so the certificate itself — signatures, seals and all — can actually be
  * read. Thumbnails crop to a uniform frame (`object-cover`); the viewer shows
- * the whole document (`object-contain`). Stills are pre-built WebP, served
- * straight (`unoptimized`) like the rest of the gallery work on the site.
+ * the whole document (`object-contain`). Stills go through ImageLoad.
  *
  * The lightbox indexes ALL_AWARDS (featured first), so the featured card and
  * every grid tile step through one continuous set.
@@ -107,7 +106,6 @@ export function AwardsGallery() {
                 src={FEATURED_AWARD.image}
                 alt={`${FEATURED_AWARD.title} certificate awarded to Topaz Events`}
                 fill
-                unoptimized
                 priority
                 sizes="(max-width: 1024px) 100vw, 1440px"
                 className="z-0 object-cover transition-transform duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
@@ -168,7 +166,6 @@ export function AwardsGallery() {
                         src={award.image}
                         alt={`${award.title} certificate awarded to Topaz Events`}
                         fill
-                        unoptimized
                         loading="lazy"
                         sizes="(max-width: 640px) 46vw, (max-width: 1024px) 31vw, 320px"
                         className="z-0 object-cover transition-transform duration-700 group-hover:scale-105"
@@ -264,7 +261,6 @@ export function AwardsGallery() {
                     src={current.image}
                     alt={`${current.title} certificate awarded to Topaz Events`}
                     fill
-                    unoptimized
                     sizes="(max-width: 1180px) 94vw, 1180px"
                     className="object-contain"
                   />

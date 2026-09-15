@@ -1,17 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { NavIcon, type NavIconName } from "@/components/nav-icons";
-
-export type NavLink = { label: string; href: string; icon: NavIconName };
-export type NavGroup = {
-  label: string;
-  icon: NavIconName;
-  children: NavLink[];
-};
-export type NavItem = NavLink | NavGroup;
+import Image from "@/components/ui/image-load";
+import { NavIcon } from "@/components/ui/nav-icons";
+import type { NavGroup, NavItem } from "@/types";
 
 const isGroup = (item: NavItem): item is NavGroup => "children" in item;
 
@@ -250,7 +243,6 @@ export function SiteHeader() {
               alt="Topaz Events"
               width={300}
               height={131}
-              unoptimized
               priority
               className="h-9 w-auto md:h-11"
             />

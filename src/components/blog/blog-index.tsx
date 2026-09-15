@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
 import { useState } from "react";
-import { BlogCard } from "@/components/blog-card";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { BlogCard } from "@/components/blog/blog-card";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import type { BlogCardData } from "@/data/cards";
 
 type Filter = string | "all";
@@ -85,7 +85,6 @@ export function BlogIndex({
                 src={featured.image}
                 alt={featured.title}
                 fill
-                unoptimized
                 priority
                 sizes="(max-width: 1024px) 100vw, 720px"
                 className="z-0 object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"

@@ -1,9 +1,9 @@
-import { ContactSection } from "@/components/contact-section";
-import { JsonLd } from "@/components/json-ld";
-import { OfficesSection } from "@/components/offices-section";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { RelatedPages } from "@/components/related-pages";
+import { ContactSection } from "@/components/home/contact-section";
+import { JsonLd } from "@/components/seo/json-ld";
+import { OfficesSection } from "@/components/pages/offices-section";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { RelatedPages } from "@/components/pages/related-pages";
 import { CONTACT, OFFICES } from "@/data/company";
 import { ORGANIZATION_ID, breadcrumbSchema, graph } from "@/lib/schema";
 import { absoluteUrl, pageMetadata } from "@/lib/seo";

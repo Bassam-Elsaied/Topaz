@@ -1,3 +1,5 @@
+import type { SocialIconName } from "@/types";
+
 /**
  * Social glyphs drawn on the same 1.4-weight stroke as the production icons,
  * so the footer set matches the rest of the page instead of importing five
@@ -5,13 +7,6 @@
  * it is the official filled mark, because it doubles as the floating chat
  * button where people expect to recognise the real logo.
  */
-export type SocialIconName =
-  | "instagram"
-  | "youtube"
-  | "linkedin"
-  | "facebook"
-  | "whatsapp";
-
 export function SocialIcon({
   name,
   className = "size-4.5",

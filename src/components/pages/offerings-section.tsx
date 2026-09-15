@@ -1,12 +1,6 @@
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
-
-export type Offering = {
-  title: string;
-  body: string;
-  /** Short tags under the copy — the sub-services a line covers. */
-  points?: string[];
-};
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
+import type { Offering } from "@/types";
 
 /**
  * The "what this service covers" grid. Two columns of hairline-ruled cards

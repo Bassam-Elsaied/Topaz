@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/reveal";
+import { Reveal } from "@/components/ui/reveal";
 import type { ProjectFact } from "@/data/projects";
 
 /**

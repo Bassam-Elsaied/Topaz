@@ -1,7 +1,5 @@
 import type { Faq } from "@/data/faqs";
-import type { Feature } from "@/components/numbered-features";
-import type { Film } from "@/components/autoplay-film";
-import type { Offering } from "@/components/offerings-section";
+import type { Feature, Film, Offering } from "@/types";
 
 export type SpecItem = {
   name: string;

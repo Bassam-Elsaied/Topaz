@@ -1,4 +1,4 @@
-import { InView } from "@/components/in-view";
+import { InView } from "@/components/ui/in-view";
 import logos from "@/data/client-logos.json";
 
 const GAP = 64;

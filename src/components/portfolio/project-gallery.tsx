@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import type { ProjectShot } from "@/data/projects";
 import { setScrollLocked } from "@/lib/scroll-ticker";
 
@@ -106,7 +106,6 @@ export function ProjectGallery({
                       src={shot.src}
                       alt={shot.alt}
                       fill
-                      unoptimized
                       sizes="(max-width: 768px) 46vw, 31vw"
                       className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -175,7 +174,6 @@ export function ProjectGallery({
                   alt={current.alt}
                   width={current.width}
                   height={current.height}
-                  unoptimized
                   sizes="(max-width: 1180px) 92vw, 1180px"
                   className="h-auto max-h-[76svh] w-full rounded-xl object-contain md:rounded-2xl"
                 />

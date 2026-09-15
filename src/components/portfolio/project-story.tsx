@@ -1,5 +1,5 @@
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import type { Project } from "@/data/projects";
 
 /** A "Label: detail" line from the write-up, split so the label can be bold. */

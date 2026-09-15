@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
 
 /** Peak vertical drift, in pixels, of each photo in the stack. */
@@ -179,7 +179,6 @@ export function AboutSection() {
                 alt="Guests at the District 11 property launch staged by Topaz"
                 width={900}
                 height={600}
-                unoptimized
                 sizes="(max-width: 1024px) 90vw, 520px"
                 className="h-auto w-full object-cover"
               />
@@ -195,7 +194,6 @@ export function AboutSection() {
                 alt="Drone show above the Binghatti and Mercedes launch"
                 width={900}
                 height={600}
-                unoptimized
                 sizes="(max-width: 1024px) 50vw, 300px"
                 className="h-auto w-full object-cover"
               />

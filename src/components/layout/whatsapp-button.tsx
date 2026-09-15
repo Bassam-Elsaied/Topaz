@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { SocialIcon } from "@/components/social-icons";
+import { SocialIcon } from "@/components/ui/social-icons";
 import { CONTACT } from "@/data/company";
 
 /**

@@ -1,7 +1,7 @@
-import { SiteFooter } from "@/components/site-footer";
-import { SiteHeader } from "@/components/site-header";
-import { SmoothScroll } from "@/components/smooth-scroll";
-import { WhatsappButton } from "@/components/whatsapp-button";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
+import { SmoothScroll } from "@/components/layout/smooth-scroll";
+import { WhatsappButton } from "@/components/layout/whatsapp-button";
 
 /**
  * Chrome shared by every route except the home page, whose fixed hero needs it

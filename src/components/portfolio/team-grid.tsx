@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import Image from "@/components/ui/image-load";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { TEAM } from "@/data/team";
 
 const initials = (name: string) =>
@@ -53,7 +53,6 @@ export function TeamGrid() {
                       src={member.image}
                       alt={`${member.name}, ${member.role} at Topaz Events`}
                       fill
-                      unoptimized
                       loading="lazy"
                       sizes="(max-width: 640px) 48vw, (max-width: 1024px) 46vw, 260px"
                       className="object-cover object-top transition-transform duration-700 group-hover:scale-105"

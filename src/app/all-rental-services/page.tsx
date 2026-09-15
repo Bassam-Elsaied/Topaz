@@ -1,12 +1,12 @@
-import { CtaBand } from "@/components/cta-band";
-import { FaqBlock } from "@/components/faq-block";
-import { JsonLd } from "@/components/json-ld";
-import { NumberedFeatures } from "@/components/numbered-features";
-import { OverviewSection } from "@/components/overview-section";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { RelatedPages } from "@/components/related-pages";
-import { SpecGrid } from "@/components/spec-grid";
+import { CtaBand } from "@/components/pages/cta-band";
+import { FaqBlock } from "@/components/pages/faq-block";
+import { JsonLd } from "@/components/seo/json-ld";
+import { NumberedFeatures } from "@/components/pages/numbered-features";
+import { OverviewSection } from "@/components/pages/overview-section";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { RelatedPages } from "@/components/pages/related-pages";
+import { SpecGrid } from "@/components/pages/spec-grid";
 import type { Faq } from "@/data/faqs";
 import type { SpecItem } from "@/data/service-pages";
 import {

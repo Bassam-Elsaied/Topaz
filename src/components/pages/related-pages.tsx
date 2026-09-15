@@ -1,7 +1,7 @@
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { relatedCards } from "@/data/site-pages";
 
 /**
@@ -55,7 +55,6 @@ export function RelatedPages({
                     src={card.image}
                     alt=""
                     fill
-                    unoptimized
                     sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />

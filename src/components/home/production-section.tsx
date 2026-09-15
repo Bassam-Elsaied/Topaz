@@ -1,8 +1,8 @@
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
-import { InView } from "@/components/in-view";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { InView } from "@/components/ui/in-view";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import {
   CAPABILITIES,
   PRODUCTION_SERVICES,
@@ -129,7 +129,6 @@ export function ProductionSection() {
                 src="/projects/district-11-launch.webp"
                 alt=""
                 fill
-                unoptimized
                 sizes="(max-width: 640px) 90vw, (max-width: 1024px) 90vw, 50vw"
                 className="scale-105 object-cover transition-transform duration-700 group-hover:scale-100"
               />
@@ -174,7 +173,6 @@ export function ProductionSection() {
                 src="/projects/binghatti-mercedes.webp"
                 alt=""
                 fill
-                unoptimized
                 sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 25vw"
                 className="object-cover opacity-80 transition-transform duration-700 group-hover:scale-105"
               />

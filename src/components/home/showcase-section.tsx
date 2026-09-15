@@ -1,5 +1,5 @@
-import Image from "next/image";
-import { Diamond } from "@/components/diamond";
+import Image from "@/components/ui/image-load";
+import { Diamond } from "@/components/ui/diamond";
 import { COLLAGE_PROJECTS } from "@/data/projects";
 
 /**
@@ -50,7 +50,6 @@ export function ShowcaseSection() {
                 alt=""
                 width={project.width}
                 height={project.height}
-                unoptimized
                 sizes="16vw"
                 className="h-auto w-full object-cover"
               />

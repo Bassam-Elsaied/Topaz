@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import { useEffect, useRef } from "react";
-import { VideoLightbox } from "@/components/video-lightbox";
+import { VideoLightbox } from "@/components/ui/video-lightbox";
 import type { ReelCardData } from "@/data/cards";
 import {
   FLIP_LEAD_VH,
@@ -159,13 +159,16 @@ export function FlipLeadVideo({ project }: { project: ReelCardData }) {
   return (
     <div
       ref={cardRef}
-      className="pointer-events-none fixed left-0 top-0 z-20 origin-top-left overflow-hidden rounded-[40px] bg-surface will-change-transform"
+      // Below `md` the events track stacks its cards instead of travelling,
+      // and this card is fixed: it could neither stick with them nor let the
+      // ones after it paint over it. The track carries the lead event itself
+      // there, so there is nothing for this to fly to.
+      className="pointer-events-none fixed left-0 top-0 z-20 origin-top-left overflow-hidden rounded-[40px] bg-surface will-change-transform max-md:hidden"
     >
       <Image
         src={project.image}
         alt={project.title}
         fill
-        unoptimized
         sizes="(max-width: 1024px) 86vw, 900px"
         className="object-cover"
       />

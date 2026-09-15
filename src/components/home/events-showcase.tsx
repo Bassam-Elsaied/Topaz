@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { VideoLightbox } from "@/components/video-lightbox";
+import { VideoLightbox } from "@/components/ui/video-lightbox";
 import type { ReelCardData } from "@/data/cards";
 import { FLIP_REVEAL_VH } from "@/lib/flip";
 import { onScrollFrame, ScrollOrder } from "@/lib/scroll-ticker";
@@ -20,14 +20,14 @@ const easeOutCubic = (t: number) => 1 - (1 - t) ** 3;
  */
 const TRAVEL_START = 0.72;
 
-function Card({ project }: { project: ReelCardData }) {
+/** A card's contents, apart from the box they sit in. */
+function CardFace({ project }: { project: ReelCardData }) {
   return (
-    <div className="relative aspect-4/3 w-[min(86vw,900px)] shrink-0 overflow-hidden rounded-3xl bg-surface md:rounded-[40px]">
+    <>
       <Image
         src={project.image}
         alt={project.title}
         fill
-        unoptimized
         sizes="(max-width: 1024px) 86vw, 900px"
         className="object-cover"
       />
@@ -47,6 +47,18 @@ function Card({ project }: { project: ReelCardData }) {
           {project.title}
         </h3>
       </div>
+    </>
+  );
+}
+
+function Card({ project, index }: { project: ReelCardData; index: number }) {
+  return (
+    <div
+      data-stack-item=""
+      style={{ "--stack-index": index } as React.CSSProperties}
+      className="relative aspect-4/3 w-[min(86vw,900px)] shrink-0 overflow-hidden rounded-3xl bg-surface md:rounded-[40px]"
+    >
+      <CardFace project={project} />
     </div>
   );
 }
@@ -56,10 +68,12 @@ function Card({ project }: { project: ReelCardData }) {
  * footage, so reaching it reads as the end of the reel rather than one more
  * event — its 3:4 ratio is sized to stand exactly as tall as the 4:3 cards.
  */
-function MoreCard() {
+function MoreCard({ index }: { index: number }) {
   return (
     <Link
       href="/portfolio"
+      data-stack-item=""
+      style={{ "--stack-index": index } as React.CSSProperties}
       className="group relative flex aspect-4/3 w-[min(86vw,900px)] shrink-0 flex-col justify-between overflow-hidden rounded-3xl border border-gold/25 bg-surface p-7 transition-colors duration-500 hover:border-gold/60 md:rounded-[40px] md:p-12 lg:aspect-3/4 lg:w-[min(52vw,506px)]"
     >
       <div
@@ -106,7 +120,13 @@ function MoreCard() {
  * component, so importing `@/data/projects` would ship the whole portfolio to
  * the browser for six stills. See `@/data/cards`.
  */
-export function EventsShowcase({ projects }: { projects: ReelCardData[] }) {
+export function EventsShowcase({
+  lead,
+  projects,
+}: {
+  lead: ReelCardData;
+  projects: ReelCardData[];
+}) {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const restRef = useRef<HTMLDivElement>(null);
@@ -214,30 +234,45 @@ export function EventsShowcase({ projects }: { projects: ReelCardData[] }) {
         Previous Topaz events
       </h2>
 
-      <div className="flex min-h-screen items-center overflow-hidden lg:sticky lg:top-0 lg:h-screen">
+      {/* Overflow only below `md`, where the stacked cards have to be able to
+          stick to the viewport — an overflow container of their own would pin
+          them to a box that never scrolls. */}
+      <div className="flex min-h-screen items-center overflow-visible md:overflow-hidden lg:sticky lg:top-0 lg:h-screen">
         {/* The leading gutter centres the 900px slot the flip lands in, so it
             has to stay half a viewport wide. The trailing one only decides
             where travel stops — matching it would park the last card in half a
             screen of nothing and charge the reader scroll for it. */}
         <div
           ref={trackRef}
+          data-card-stack=""
           className="flex flex-col items-center gap-6 px-6 py-16 lg:flex-row lg:gap-16 lg:py-0 lg:pl-[max(1.5rem,calc(50vw-450px))] lg:pr-16 lg:will-change-transform"
         >
           {/* Empty box the flying lead video lands on and then tracks. */}
           <div
             data-flip-target=""
-            className="aspect-4/3 w-[min(86vw,900px)] shrink-0"
-          />
+            data-stack-item=""
+            style={{ "--stack-index": 0 } as React.CSSProperties}
+            className="relative aspect-4/3 w-[min(86vw,900px)] shrink-0"
+          >
+            {/* The lead event is a card of its own below `md`. The flying card
+                is fixed, and a fixed element can neither stick to the stack nor
+                let the cards after it paint over it — so it is the one card the
+                stack has to own rather than borrow. It hands the box back at
+                `md`, where the flying card takes over again. */}
+            <div className="absolute inset-0 overflow-hidden rounded-3xl bg-surface md:hidden">
+              <CardFace project={lead} />
+            </div>
+          </div>
           <div
             ref={restRef}
             className="flex flex-col items-center gap-6 lg:flex-row lg:gap-16 lg:will-change-transform"
           >
-            {projects.map((project) => (
-              <Card key={project.slug} project={project} />
+            {projects.map((project, index) => (
+              <Card key={project.slug} project={project} index={index + 1} />
             ))}
             {/* `measure` reads the track's scrollWidth, so the pinned section
                 lengthens itself to cover this card without further wiring. */}
-            <MoreCard />
+            <MoreCard index={projects.length + 1} />
           </div>
         </div>
       </div>

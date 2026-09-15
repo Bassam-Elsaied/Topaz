@@ -1,7 +1,7 @@
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
-import { Reveal } from "@/components/reveal";
-import { SocialIcon } from "@/components/social-icons";
+import { Reveal } from "@/components/ui/reveal";
+import { SocialIcon } from "@/components/ui/social-icons";
 import { CONTACT, FOOTER_COLUMNS, OFFICES, SOCIAL_LINKS } from "@/data/company";
 
 export function SiteFooter() {
@@ -17,7 +17,6 @@ export function SiteFooter() {
                   alt="Topaz Events"
                   width={300}
                   height={131}
-                  unoptimized
                   sizes="180px"
                   className="h-11 w-auto"
                 />

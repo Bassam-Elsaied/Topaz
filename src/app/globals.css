@@ -256,6 +256,37 @@ body {
   }
 }
 
+/* Events reel on a phone. The desktop reel is a pinned track that travels
+   sideways, which needs width a phone does not have — so below `md`, where the
+   component lays the same cards out as a column, each one sticks under the last
+   and the reel reads as a stack instead. Nothing here is scroll-linked in JS:
+   the cards' own containing block releases the stack at the end of the reel. */
+@media (max-width: 767.98px) {
+  [data-card-stack] {
+    /* Clears the fixed header, then leaves a sliver of every card already in
+       the stack showing above the one that covered it. */
+    --stack-top: 4.5rem;
+    --stack-step: 0.75rem;
+  }
+
+  /* Not a child selector: the lead card sits directly on the track while the
+     rest share a group that slides in behind the flip on desktop. */
+  [data-card-stack] [data-stack-item] {
+    position: sticky;
+    top: calc(var(--stack-top) + var(--stack-index, 0) * var(--stack-step));
+    /* Reads as one card resting on the one under it rather than a hard cut.
+       Cast upwards, since the edge that shows is always the top one. */
+    box-shadow:
+      0 -1px 0 rgba(255, 255, 255, 0.09),
+      0 -14px 34px rgba(0, 0, 0, 0.5);
+    /* Its own layer, or iOS repaints the still and its rounded corners for
+       every frame the card spends pinned. Safe to promote: the one fixed
+       element a card owns is the lightbox, which portals to the body. */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
 /* Stepped enquiry form. Every field stays mounted inside one <form> so the
    submitted FormData is complete whichever step the sender is on — only the
    panels' visibility is stepped, never their presence. */
@@ -336,5 +367,16 @@ body {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  /* The phone events stack goes back to a plainly scrolling column — the same
+     column the desktop script already leaves alone under reduced motion. It is
+     unpinned rather than unpositioned: `static` would outrank the cards' own
+     `relative` and let their stills out of the box they crop. */
+  [data-card-stack] [data-stack-item] {
+    position: relative;
+    top: auto;
+    box-shadow: none;
+    transform: none;
   }
 }

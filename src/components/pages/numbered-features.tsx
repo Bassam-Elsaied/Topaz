@@ -1,7 +1,6 @@
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
-
-export type Feature = { title: string; body: string };
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
+import type { Feature } from "@/types";
 
 /**
  * The "why choose Topaz" block. The index is set oversized and nearly

@@ -1,6 +1,6 @@
-import Image from "next/image";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import Image from "@/components/ui/image-load";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import type { SpecItem } from "@/data/service-pages";
 
 /**
@@ -100,7 +100,6 @@ export function SpecGrid({
                       src={item.image}
                       alt={item.imageAlt ?? item.name}
                       fill
-                      unoptimized
                       sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw"
                       className={`transition-transform duration-700 ease-out group-hover:scale-105 ${
                         cover ? "object-cover" : "object-contain p-4"

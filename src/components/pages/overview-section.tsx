@@ -1,5 +1,5 @@
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 
 /**
  * The statement block under an inner-page hero: a heading held on the left

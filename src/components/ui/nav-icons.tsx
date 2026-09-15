@@ -1,18 +1,9 @@
+import type { NavIconName } from "@/types";
+
 /**
  * Glyphs for the main navigation, drawn on the same 1.4-weight stroke and
  * 3-21 bounding box as the social icons so the two sets sit together.
  */
-export type NavIconName =
-  | "home"
-  | "services"
-  | "av"
-  | "interactive"
-  | "about"
-  | "portfolio"
-  | "team"
-  | "awards"
-  | "blog";
-
 export function NavIcon({
   name,
   className = "size-4.5",

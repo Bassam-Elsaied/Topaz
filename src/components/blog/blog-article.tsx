@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import type { BlogBlock } from "@/data/blog";
 import { blogTocMode, isRawHtml, slugify } from "@/lib/slug";
 
@@ -93,7 +93,6 @@ export function BlogArticle({ body }: { body: BlogBlock[] }) {
                 alt={block.alt}
                 width={block.width || 1000}
                 height={block.height || 625}
-                unoptimized
                 loading="lazy"
                 sizes="(max-width: 768px) 92vw, 720px"
                 className="h-auto w-full object-cover"

@@ -1,17 +1,17 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import { notFound } from "next/navigation";
-import { BlogArticle } from "@/components/blog-article";
-import { BlogCard } from "@/components/blog-card";
-import { BlogShare } from "@/components/blog-share";
-import { BlogToc } from "@/components/blog-toc";
-import { CtaBand } from "@/components/cta-band";
-import { JsonLd } from "@/components/json-ld";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { ReadingProgress } from "@/components/reading-progress";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { BlogArticle } from "@/components/blog/blog-article";
+import { BlogCard } from "@/components/blog/blog-card";
+import { BlogShare } from "@/components/blog/blog-share";
+import { BlogToc } from "@/components/blog/blog-toc";
+import { CtaBand } from "@/components/pages/cta-band";
+import { JsonLd } from "@/components/seo/json-ld";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { ReadingProgress } from "@/components/blog/reading-progress";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { BLOG_POSTS, getPost, relatedPosts } from "@/data/blog";
 import { COMPANY_NAME } from "@/data/company";
 import {
@@ -116,7 +116,6 @@ export default async function BlogPostRoute({
                       alt={COMPANY_NAME}
                       width={44}
                       height={19}
-                      unoptimized
                       className="w-7"
                     />
                   </span>

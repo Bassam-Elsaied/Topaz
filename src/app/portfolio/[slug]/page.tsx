@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { CtaBand } from "@/components/cta-band";
-import { JsonLd } from "@/components/json-ld";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { ProjectFacts } from "@/components/project-facts";
-import { ProjectFilm } from "@/components/project-film";
-import { ProjectGallery } from "@/components/project-gallery";
-import { ProjectStory } from "@/components/project-story";
-import { RelatedProjects } from "@/components/related-projects";
+import { CtaBand } from "@/components/pages/cta-band";
+import { JsonLd } from "@/components/seo/json-ld";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { ProjectFacts } from "@/components/portfolio/project-facts";
+import { ProjectFilm } from "@/components/portfolio/project-film";
+import { ProjectGallery } from "@/components/portfolio/project-gallery";
+import { ProjectStory } from "@/components/portfolio/project-story";
+import { RelatedProjects } from "@/components/portfolio/related-projects";
 import { PROJECTS, PROJECT_MAP, relatedProjects } from "@/data/projects";
 import {
   breadcrumbSchema,

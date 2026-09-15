@@ -1,29 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import Image from "@/components/ui/image-load";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import {
   EMBED_ALLOW,
   embedUrl,
   warmYoutubeConnection,
   watchUrl,
 } from "@/lib/youtube";
-
-export type Film = {
-  youtubeId: string;
-  title: string;
-  /** Poster still shown before the player mounts, and behind it while it loads. */
-  poster: string;
-  posterAlt?: string;
-  /** Seconds into the clip the loop should begin. */
-  start?: number;
-  label?: string;
-  heading: string;
-  accent?: string;
-  description?: string;
-};
+import type { Film } from "@/types";
 
 /** Best playback quality we ask the player to serve. */
 const PREFERRED_QUALITY = "hd1080";
@@ -128,7 +115,6 @@ export function AutoplayFilm({
               src={poster}
               alt={posterAlt ?? title}
               fill
-              unoptimized
               sizes="(max-width: 1024px) 94vw, 1200px"
               className="object-cover"
             />

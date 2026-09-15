@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { BlogToc } from "@/components/blog-toc";
-import { Breadcrumbs } from "@/components/breadcrumbs";
-import { JsonLd } from "@/components/json-ld";
-import { PageShell } from "@/components/page-shell";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { BlogToc } from "@/components/blog/blog-toc";
+import { Breadcrumbs } from "@/components/ui/breadcrumbs";
+import { JsonLd } from "@/components/seo/json-ld";
+import { PageShell } from "@/components/layout/page-shell";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { CONTACT } from "@/data/company";
 import {
   POLICY_HIGHLIGHTS,

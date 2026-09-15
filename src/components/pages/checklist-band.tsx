@@ -1,4 +1,4 @@
-import { Reveal } from "@/components/reveal";
+import { Reveal } from "@/components/ui/reveal";
 
 /**
  * Flat list of inclusions — what a booking covers, or which institutions we

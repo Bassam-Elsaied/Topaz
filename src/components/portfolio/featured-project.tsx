@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
 import type { ProjectCardData } from "@/data/cards";
 
@@ -27,7 +27,6 @@ export function FeaturedProject({
           src={project.image}
           alt={project.imageAlt}
           fill
-          unoptimized
           priority
           sizes="(max-width: 1024px) 100vw, 1440px"
           className="object-cover transition-transform duration-[1100ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"

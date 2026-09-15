@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
 import type { ProjectCardData } from "@/data/cards";
 
@@ -13,9 +13,8 @@ import type { ProjectCardData } from "@/data/cards";
  * the other side, not a second control, so a card never asks the reader to aim
  * at the right half of itself.
  *
- * Stills are already WebP from the build pipeline, so we skip the Next image
- * optimizer (`unoptimized`). A seventy-card grid hammering `/_next/image` at
- * once was leaving some requests hanging forever and the cards looking empty.
+ * Stills are already WebP from the build pipeline; ImageLoad serves them
+ * with a blur-up lazy load so grids stay light until tiles enter view.
  */
 export function ProjectCard({
   project,
@@ -41,7 +40,6 @@ export function ProjectCard({
           src={project.image}
           alt={project.imageAlt}
           fill
-          unoptimized
           priority={priority}
           sizes={sizes}
           className="object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.07]"

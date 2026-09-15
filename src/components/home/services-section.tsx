@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
+import Image from "@/components/ui/image-load";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { Reveal } from "@/components/reveal";
-import { SectionLabel } from "@/components/section-label";
+import { Reveal } from "@/components/ui/reveal";
+import { SectionLabel } from "@/components/ui/section-label";
 import { EVENT_SERVICES } from "@/data/services";
 
 const PREVIEW_W = 340;
@@ -160,9 +160,12 @@ export function ServicesSection() {
                     src={service.image}
                     alt=""
                     fill
-                    unoptimized
                     sizes="340px"
-                    className={`object-cover transition-opacity duration-500 ${
+                    className="object-cover"
+                    // Opacity on the fill wrapper — ImageLoad also toggles
+                    // opacity on the <img> for blur-up, which would override
+                    // inactive layers and leave only the last still visible.
+                    wrapperClassName={`transition-opacity duration-500 ${
                       index === active ? "opacity-100" : "opacity-0"
                     }`}
                   />
@@ -218,7 +221,6 @@ export function ServicesSection() {
                           src={service.image}
                           alt=""
                           fill
-                          unoptimized
                           sizes="80px"
                           className="object-cover"
                         />

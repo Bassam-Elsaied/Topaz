@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter, Outfit } from "next/font/google";
-import { Preloader } from "@/components/preloader";
+import { Preloader } from "@/components/layout/preloader";
 import { COMPANY_NAME, SITE_URL } from "@/data/company";
 import "./globals.css";
 

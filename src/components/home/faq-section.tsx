@@ -1,4 +1,4 @@
-import { FaqBlock } from "@/components/faq-block";
+import { FaqBlock } from "@/components/pages/faq-block";
 import { FAQS } from "@/data/faqs";
 
 /** The home page's preset of the shared question list. */

@@ -1,12 +1,12 @@
-import { CtaBand } from "@/components/cta-band";
-import { JsonLd } from "@/components/json-ld";
-import { NumberedFeatures } from "@/components/numbered-features";
-import { OverviewSection } from "@/components/overview-section";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { RelatedPages } from "@/components/related-pages";
+import { CtaBand } from "@/components/pages/cta-band";
+import { JsonLd } from "@/components/seo/json-ld";
+import { NumberedFeatures } from "@/components/pages/numbered-features";
+import { OverviewSection } from "@/components/pages/overview-section";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { RelatedPages } from "@/components/pages/related-pages";
 
-import { TeamGrid } from "@/components/team-grid";
+import { TeamGrid } from "@/components/portfolio/team-grid";
 import { DEPARTMENTS } from "@/data/team";
 import { breadcrumbSchema, graph, webPageSchema } from "@/lib/schema";
 import { pageMetadata } from "@/lib/seo";

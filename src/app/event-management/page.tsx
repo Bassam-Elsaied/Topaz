@@ -1,14 +1,15 @@
-import { ClientLogos } from "@/components/client-logos";
-import { CtaBand } from "@/components/cta-band";
-import { FaqBlock } from "@/components/faq-block";
-import { JsonLd } from "@/components/json-ld";
-import { NumberedFeatures } from "@/components/numbered-features";
-import { OverviewSection } from "@/components/overview-section";
-import { PageHero } from "@/components/page-hero";
-import { PageShell } from "@/components/page-shell";
-import { ServiceIndex, type IndexEntry } from "@/components/service-index";
-import { StatsSection } from "@/components/stats-section";
+import { ClientLogos } from "@/components/home/client-logos";
+import { CtaBand } from "@/components/pages/cta-band";
+import { FaqBlock } from "@/components/pages/faq-block";
+import { JsonLd } from "@/components/seo/json-ld";
+import { NumberedFeatures } from "@/components/pages/numbered-features";
+import { OverviewSection } from "@/components/pages/overview-section";
+import { PageHero } from "@/components/pages/page-hero";
+import { PageShell } from "@/components/layout/page-shell";
+import { ServiceIndex } from "@/components/pages/service-index";
+import { StatsSection } from "@/components/home/stats-section";
 import type { Faq } from "@/data/faqs";
+import type { IndexEntry } from "@/types";
 import {
   breadcrumbSchema,
   faqSchema,

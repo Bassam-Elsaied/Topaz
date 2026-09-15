@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { PageShell } from "@/components/page-shell";
-import { RelatedPages } from "@/components/related-pages";
-import { SectionLabel } from "@/components/section-label";
+import { PageShell } from "@/components/layout/page-shell";
+import { RelatedPages } from "@/components/pages/related-pages";
+import { SectionLabel } from "@/components/ui/section-label";
 
 export const metadata: Metadata = {
   title: "Page not found | Topaz Events",
